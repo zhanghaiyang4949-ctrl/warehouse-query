@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-24T16:14:09.383Z",
+  "updatedAt": "2026-08-24T16:17:19.559Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
   "items": [
     {
@@ -8780,13 +8780,6 @@
       "customer": "GGBD",
       "date": "2026-08-04",
       "pallet": "D-1-5-1"
-    },
-    {
-      "express": "1652",
-      "last4": "1652",
-      "customer": "KEW",
-      "date": "2026-08-07",
-      "pallet": "D-1-8-5"
     },
     {
       "express": "4851",
