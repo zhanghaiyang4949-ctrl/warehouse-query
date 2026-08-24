@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-24T16:42:44.925Z",
+  "updatedAt": "2026-08-24T16:42:55.406Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
   "items": [
     {
@@ -9676,13 +9676,6 @@
       "customer": "MI",
       "date": "2026-08-21",
       "pallet": "D-1-8-4"
-    },
-    {
-      "express": "5271",
-      "last4": "5271",
-      "customer": "KEW",
-      "date": "2026-08-07",
-      "pallet": "D-1-8-5"
     },
     {
       "express": "6755",
