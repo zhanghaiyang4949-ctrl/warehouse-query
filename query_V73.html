@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>快递查询</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;background:#f4f6f8;color:#222}
+.wrap{max-width:900px;margin:auto;padding:12px}
+.card{background:#fff;border:1px solid #e1e5e9;border-radius:10px;padding:12px;margin-bottom:10px}
+.row{display:grid;grid-template-columns:1fr auto;gap:6px}
+input,select,button,textarea{font:inherit;box-sizing:border-box}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ccd3da;border-radius:8px}
+button{border:0;border-radius:8px;padding:10px 12px}
+.primary{background:#2367c9;color:#fff}
+.gray{background:#e9edf1}
+.result{border:1px solid #dfe4e8;border-radius:8px;padding:10px;margin:7px 0;background:#fff}
+.missing{color:#c62828;background:#fff4f4;border-color:#efb7b7}
+.muted{color:#6d747b;font-size:12px}
+#loginBox{max-width:420px;margin:12vh auto 0}
+#app{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="loginBox" class="card">
+    <h3>只读查询登录</h3>
+    <div class="muted">每天第一次使用需要重新输入密码。</div>
+    <div class="row" style="margin-top:10px">
+      <input id="pwd" type="password" placeholder="输入查询密码">
+      <button class="primary" onclick="login()">登录</button>
+    </div>
+    <div id="loginMsg" class="muted" style="margin-top:8px"></div>
+  </div>
+
+  <div id="app">
+    <div class="card">
+      <div class="row">
+        <input id="quick" inputmode="numeric" placeholder="输入单号/后4位">
+        <button class="primary" onclick="quickSearch()">搜索</button>
+      </div>
+      <div id="meta" class="muted" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card">
+      <details>
+        <summary><b>批量找货</b></summary>
+        <textarea id="batch" style="min-height:130px;margin-top:8px"></textarea>
+        <button class="primary" style="width:100%;margin-top:8px" onclick="batchSearch()">批量查询</button>
+      </details>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <select id="customerFilter" onchange="renderCurrent()"><option value="">全部客户</option></select>
+        <select id="dateFilter" onchange="renderCurrent()"><option value="">全部日期</option></select>
+      </div>
+      <div class="row" style="margin-top:6px">
+        <select id="palletFilter" onchange="renderCurrent()"><option value="">全部托盘</option></select>
+        <select id="sortField" onchange="renderCurrent()">
+          <option value="">不排序</option>
+          <option value="customer">客户</option>
+          <option value="date">日期</option>
+          <option value="pallet">托盘</option>
+          <option value="express">快递</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="results" class="card"><div class="muted">请输入单号查询</div></div>
+  </div>
+</div>
+
+<script>
+let payload=null,currentMode="none",currentItems=[],currentBatch=[];
+
+function todayKey(){
+ const d=new Date();
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+async function sha256Text(text){
+ const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(String(text||"")));
+ return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function loadData(){
+ const r=await fetch("query-data.json?ts="+Date.now(),{cache:"no-store"});
+ if(!r.ok)throw new Error("query-data.json 加载失败");
+ payload=await r.json();
+ document.getElementById("meta").textContent=
+   "数据更新时间："+(payload.updatedAt?new Date(payload.updatedAt).toLocaleString():"未知")+
+   " ｜ 在库："+((payload.items||[]).length)+" 条";
+}
+async function login(){
+ try{
+   if(!payload)await loadData();
+   const hash=await sha256Text(document.getElementById("pwd").value);
+   if(hash!==String(payload.passwordHash||"")){
+     document.getElementById("loginMsg").textContent="密码错误";
+     return;
+   }
+   sessionStorage.setItem("queryLoginDay",todayKey());
+   document.getElementById("loginBox").style.display="none";
+   document.getElementById("app").style.display="block";
+   buildFilters();
+ }catch(e){
+   document.getElementById("loginMsg").textContent=e.message||"登录失败";
+ }
+}
+function requireDailyLogin(){
+ if(sessionStorage.getItem("queryLoginDay")===todayKey()){
+   loadData().then(function(){
+     document.getElementById("loginBox").style.display="none";
+     document.getElementById("app").style.display="block";
+     buildFilters();
+   }).catch(function(){});
+ }
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function buildFilters(){
+ const items=payload?.items||[];
+ const fill=(id,label,vals)=>{
+   const el=document.getElementById(id);
+   el.innerHTML='<option value="">'+label+'</option>'+vals.map(v=>'<option>'+esc(v)+'</option>').join("");
+ };
+ fill("customerFilter","全部客户",[...new Set(items.map(x=>x.customer||"-"))].sort());
+ fill("dateFilter","全部日期",[...new Set(items.map(x=>x.date||"-"))].sort());
+ fill("palletFilter","全部托盘",[...new Set(items.map(x=>x.pallet||"-"))].sort());
+}
+function passFilters(x){
+ const c=document.getElementById("customerFilter").value;
+ const d=document.getElementById("dateFilter").value;
+ const p=document.getElementById("palletFilter").value;
+ return (!c||(x.customer||"-")===c)&&(!d||(x.date||"-")===d)&&(!p||(x.pallet||"-")===p);
+}
+function sortItems(arr){
+ const f=document.getElementById("sortField").value;
+ return f?arr.slice().sort((a,b)=>String(a[f]||"").localeCompare(String(b[f]||""),"zh-CN",{numeric:true})):arr;
+}
+function card(x){
+ return '<div class="result"><b>快递：</b>'+esc(x.express||"-")+
+ '<br><b>客户：</b>'+esc(x.customer||"-")+
+ '<br><b>日期：</b>'+esc(x.date||"-")+
+ '<br><b>托盘：</b>'+esc(x.pallet||"-")+'</div>';
+}
+async function quickSearch(){
+ try{await loadData();buildFilters();}catch(e){document.getElementById("results").innerHTML='<div class="result missing">最新数据读取失败，请稍后重试</div>';return;}
+ const q=String(document.getElementById("quick").value||"").trim();
+ if(!q)return;
+ currentMode="quick";
+ currentItems=(payload.items||[]).filter(x=>{
+   const e=String(x.express||""),l=String(x.last4||e.slice(-4));
+   return e.includes(q)||l===q||String(x.customer||"").includes(q)||String(x.pallet||"").includes(q);
+ });
+ renderCurrent();
+}
+async function batchSearch(){
+ try{await loadData();buildFilters();}catch(e){document.getElementById("results").innerHTML='<div class="result missing">最新数据读取失败，请稍后重试</div>';return;}
+ const lines=String(document.getElementById("batch").value||"").split(/\r?\n/).map(v=>v.trim()).filter(Boolean);
+ currentMode="batch";
+ currentBatch=lines.map((line,index)=>{
+   const digits=line.replace(/\D/g,"");
+   const key=digits.length>=4?digits.slice(-4):line.slice(-4);
+   const matches=(payload.items||[]).filter(x=>String(x.last4||String(x.express||"").slice(-4))===key);
+   return {index,line,key,matches};
+ });
+ renderCurrent();
+}
+function renderCurrent(){
+ const box=document.getElementById("results");
+ if(currentMode==="quick"){
+   const arr=sortItems(currentItems.filter(passFilters));
+   box.innerHTML=arr.length?arr.map(card).join(""):'<div class="result missing">未找到</div>';
+ }else if(currentMode==="batch"){
+   const blocks=[];
+   currentBatch.forEach(e=>{
+     const arr=sortItems(e.matches.filter(passFilters));
+     if(!e.matches.length)blocks.push('<div class="result missing"><b>'+(e.index+1)+'. '+esc(e.line)+'</b> → 未找到</div>');
+     else if(arr.length)blocks.push('<div class="result"><b>'+(e.index+1)+'. '+esc(e.line)+'</b>'+arr.map(card).join("")+'</div>');
+   });
+   box.innerHTML=blocks.length?blocks.join(""):'<div class="muted">当前筛选条件下没有结果</div>';
+ }
+}
+requireDailyLogin();
+setInterval(function(){
+ if(sessionStorage.getItem("queryLoginDay") && sessionStorage.getItem("queryLoginDay")!==todayKey()){
+   sessionStorage.removeItem("queryLoginDay");
+   document.getElementById("app").style.display="none";
+   document.getElementById("loginBox").style.display="block";
+   document.getElementById("pwd").value="";
+   document.getElementById("loginMsg").textContent="日期已变化，请重新登录";
+ }
+},60000);
+</script>
+</body>
+</html>
