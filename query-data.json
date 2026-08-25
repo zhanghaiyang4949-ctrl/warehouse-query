@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-25T06:09:02.848Z",
+  "updatedAt": "2026-08-25T10:44:23.946Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
   "items": [
     {
@@ -10143,7 +10143,7 @@
       "express": "5951",
       "last4": "5951",
       "customer": "YANG",
-      "date": "2026-08-21",
+      "date": "2026-08-25",
       "pallet": "D-1-8-1"
     },
     {
@@ -11166,28 +11166,28 @@
       "last4": "4143",
       "customer": "KEW",
       "date": "2026-08-22",
-      "pallet": "D-1-8-8"
+      "pallet": "D-1-7-7"
     },
     {
       "express": "3955",
       "last4": "3955",
       "customer": "KEW",
       "date": "2026-08-22",
-      "pallet": "D-1-8-8"
+      "pallet": "D-1-7-7"
     },
     {
       "express": "3981",
       "last4": "3981",
       "customer": "KEW",
       "date": "2026-08-22",
-      "pallet": "D-1-8-8"
+      "pallet": "D-1-7-7"
     },
     {
       "express": "4132",
       "last4": "4132",
       "customer": "KEW",
       "date": "2026-08-22",
-      "pallet": "D-1-8-8"
+      "pallet": "D-1-7-7"
     },
     {
       "express": "6674",
@@ -11264,21 +11264,21 @@
       "last4": "0164",
       "customer": "S",
       "date": "2026-08-22",
-      "pallet": "D-1-8-8"
+      "pallet": "D-1-7-7"
     },
     {
       "express": "4121",
       "last4": "4121",
       "customer": "KEW",
       "date": "2026-08-22",
-      "pallet": "D-1-8-8"
+      "pallet": "D-1-7-7"
     },
     {
       "express": "3944",
       "last4": "3944",
       "customer": "KEW",
       "date": "2026-08-22",
-      "pallet": "D-1-8-8"
+      "pallet": "D-1-7-7"
     },
     {
       "express": "0830",
