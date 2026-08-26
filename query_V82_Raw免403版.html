@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>快递查询</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;background:#f4f6f8;color:#222}
+.wrap{max-width:900px;margin:auto;padding:12px}
+.card{background:#fff;border:1px solid #e1e5e9;border-radius:10px;padding:12px;margin-bottom:10px}
+.row{display:grid;grid-template-columns:1fr auto;gap:6px}
+input,select,button,textarea{font:inherit;box-sizing:border-box}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ccd3da;border-radius:8px}
+button{border:0;border-radius:8px;padding:10px 12px}
+.primary{background:#2367c9;color:#fff}
+.gray{background:#e9edf1}
+.result{border:1px solid #dfe4e8;border-radius:8px;padding:10px;margin:7px 0;background:#fff}
+.missing{color:#c62828;background:#fff4f4;border-color:#efb7b7}
+.muted{color:#6d747b;font-size:12px}
+#loginBox{max-width:420px;margin:12vh auto 0}
+#app{display:none}
+</style>
+
+<style id="v76AuthNoFlashStyle">
+html.v76AuthPending body{visibility:hidden}
+</style>
+<script>
+document.documentElement.classList.add("v76AuthPending");
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div id="loginBox" class="card">
+    <h3>只读查询登录</h3>
+    <div class="muted">每天第一次使用需要重新输入密码。</div>
+    <div class="row" style="margin-top:10px">
+      <input id="pwd" type="password" placeholder="输入查询密码">
+      <button class="primary" onclick="login()">登录</button>
+    </div>
+    <div id="loginMsg" class="muted" style="margin-top:8px"></div>
+  </div>
+
+  <div id="app">
+    <div class="card">
+      <div class="row">
+        <input id="quick" inputmode="numeric" placeholder="输入单号/后4位">
+        <button class="primary" onclick="quickSearch()">搜索</button>
+      </div>
+      <div id="meta" class="muted" style="margin-top:8px"></div>
+      
+    </div>
+
+    <div class="card" id="batchQueryCardV77" style="display:none">
+      <details>
+        <summary><b>批量找货</b></summary>
+        <textarea id="batch" style="min-height:130px;margin-top:8px"></textarea>
+        <button class="primary" style="width:100%;margin-top:8px" onclick="batchSearch()">批量查询</button>
+      </details>
+    </div>
+
+    <div class="card" id="batchFilterSortCardV78" style="display:none">
+      <div class="row">
+        <select id="customerFilter" onchange="onBatchFilterChangeV81()"><option value="">全部客户</option></select>
+        <select id="dateFilter" onchange="onBatchFilterChangeV81()"><option value="">全部日期</option></select>
+      </div>
+      <div class="row" style="margin-top:6px">
+        <select id="palletFilter" onchange="onBatchFilterChangeV81()"><option value="">全部托盘</option></select>
+        <select id="sortField" onchange="renderCurrent()">
+          <option value="">输入顺序</option>
+          <option value="customer">客户</option>
+          <option value="date">日期</option>
+          <option value="pallet">托盘</option>
+          <option value="express">快递</option>
+        </select>
+      </div>
+      <button class="gray" type="button" style="width:100%;margin-top:7px" onclick="clearBatchFiltersV79()">清除筛选</button>
+    </div>
+
+    <div id="results" class="card"><div class="muted">请输入单号查询</div></div>
+  </div>
+</div>
+
+<script>
+let payload=null,currentMode="none",currentItems=[],currentBatch=[];
+
+function todayKey(){
+ const d=new Date();
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+async function sha256Text(text){
+ const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(String(text||"")));
+ return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function loadData(){
+ let owner="";
+ const host=String(location.hostname||"").toLowerCase();
+
+ if(host.endsWith(".github.io")){
+   owner=host.split(".")[0];
+ }else{
+   owner=localStorage.getItem("queryOwnerV82")||"";
+ }
+
+ if(!owner)throw new Error("无法确定 GitHub 用户名");
+
+ const repo="warehouse-query";
+ const rawUrl="https://raw.githubusercontent.com/"+
+   encodeURIComponent(owner)+"/"+encodeURIComponent(repo)+
+   "/main/query-data.json?v="+Date.now()+"-"+Math.random().toString(36).slice(2);
+
+ const r=await fetch(rawUrl,{
+   method:"GET",
+   cache:"no-store",
+   headers:{
+     "Accept":"application/json",
+     "Cache-Control":"no-cache",
+     "Pragma":"no-cache"
+   }
+ });
+
+ if(!r.ok){
+   throw new Error("最新查询数据读取失败："+r.status);
+ }
+
+ const text=await r.text();
+ payload=JSON.parse(text);
+
+ // Raw URL does not expose Git blob SHA, so use payload updatedAt as live version.
+ window.queryDataShaV76=String(payload.updatedAt||"");
+
+ const meta=document.getElementById("meta");
+ if(meta){
+   const version=payload.updatedAt
+     ? String(payload.updatedAt).replace(/[^0-9]/g,"").slice(0,14)
+     : "Unknown";
+   meta.textContent=
+     "Data updated: "+(payload.updatedAt?new Date(payload.updatedAt).toLocaleString():"Unknown")+
+     " | In stock: "+((payload.items||[]).length)+
+     " | Data version: "+version;
+ }
+}
+let refreshBusyV75=false;
+let lastRefreshV75=0;
+
+async function refreshLatestDataV75(showMessage){
+ if(refreshBusyV75)return false;
+ refreshBusyV75=true;
+ try{
+   await loadData();
+   buildFilters();
+   lastRefreshV75=Date.now();
+   if(showMessage){
+     const box=document.getElementById("results");
+     if(box && currentMode==="none") box.innerHTML='<div class="muted">数据已刷新，请输入单号查询</div>';
+   }
+   return true;
+ }catch(e){
+   if(showMessage){
+     const box=document.getElementById("results");
+     if(box)box.innerHTML='<div class="result missing">最新数据读取失败：'+esc(e&&e.message?e.message:e)+'</div>';
+   }
+   return false;
+ }finally{
+   refreshBusyV75=false;
+ }
+}
+
+
+function refreshWhenActiveV75(){
+ if(document.visibilityState==="visible" && sessionStorage.getItem("queryLoginDay")===todayKey()){
+   refreshLatestDataV75(false).then(function(ok){
+     if(ok && currentMode!=="none")renderCurrent();
+   });
+ }
+}
+
+async function login(){
+ try{
+   if(!payload)await loadData();
+   const hash=await sha256Text(document.getElementById("pwd").value);
+   if(hash!==String(payload.passwordHash||"")){
+     document.getElementById("loginMsg").textContent="密码错误";
+     return;
+   }
+   sessionStorage.setItem("queryLoginDay",todayKey());
+   document.getElementById("loginBox").style.display="none";
+   document.getElementById("app").style.display="block";
+   buildFilters();
+ }catch(e){
+   document.getElementById("loginMsg").textContent=e.message||"登录失败";
+ }
+}
+function requireDailyLogin(){
+ const sameDay=sessionStorage.getItem("queryLoginDay")===todayKey();
+
+ if(sameDay){
+   refreshLatestDataV75(false).then(function(ok){
+     if(ok){
+       document.getElementById("loginBox").style.display="none";
+       document.getElementById("app").style.display="block";
+     }else{
+       document.getElementById("loginBox").style.display="block";
+       document.getElementById("app").style.display="none";
+       document.getElementById("loginMsg").textContent="最新数据读取失败，请稍后重试";
+     }
+     document.documentElement.classList.remove("v76AuthPending");
+   });
+ }else{
+   document.getElementById("loginBox").style.display="block";
+   document.getElementById("app").style.display="none";
+   document.documentElement.classList.remove("v76AuthPending");
+ }
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function applyQueryFeaturesV77(){
+ const batchCard=document.getElementById("batchQueryCardV77");
+ const filterSortCard=document.getElementById("batchFilterSortCardV78");
+ const enabled=!!(payload&&payload.features&&payload.features.batchQuery);
+ if(batchCard)batchCard.style.display=enabled?"block":"none";
+ if(filterSortCard)filterSortCard.style.display=enabled?"block":"none";
+ if(!enabled && currentMode==="batch"){
+   currentMode="none";
+   currentBatch=[];
+   const box=document.getElementById("results");
+   if(box)box.innerHTML='<div class="muted">请输入单号查询</div>';
+ }
+}
+
+function getCurrentBatchMatchedItemsV79(){
+ if(currentMode!=="batch")return [];
+ const map=new Map();
+ (currentBatch||[]).forEach(function(entry){
+   (entry.matches||[]).forEach(function(x){
+     const key=String(x.id!==undefined?x.id:[
+       x.express||"",x.customer||"",x.date||"",x.pallet||""
+     ].join("||"));
+     if(!map.has(key))map.set(key,x);
+   });
+ });
+ return Array.from(map.values());
+}
+
+function currentBatchFilterValuesV81(){
+ return {
+   customer:document.getElementById("customerFilter")?.value||"",
+   date:document.getElementById("dateFilter")?.value||"",
+   pallet:document.getElementById("palletFilter")?.value||""
+ };
+}
+
+function matchesOtherBatchFiltersV81(x,excludeField){
+ const v=currentBatchFilterValuesV81();
+
+ if(excludeField!=="customer" && v.customer && (x.customer||"-")!==v.customer)return false;
+ if(excludeField!=="date" && v.date && (x.date||"-")!==v.date)return false;
+ if(excludeField!=="pallet" && v.pallet && (x.pallet||"-")!==v.pallet)return false;
+
+ return true;
+}
+
+function buildFilters(){
+ applyQueryFeaturesV77();
+
+ const baseItems=(currentMode==="batch")
+   ? getCurrentBatchMatchedItemsV79()
+   : [];
+
+ const selected=currentBatchFilterValuesV81();
+
+ function buildOne(id,label,field,currentValue){
+   const el=document.getElementById(id);
+   if(!el)return;
+
+   // 这个筛选框的可选项，由“另外两个筛选条件”过滤后的结果动态决定。
+   const candidateItems=baseItems.filter(function(x){
+     return matchesOtherBatchFiltersV81(x,field);
+   });
+
+   const vals=candidateItems.map(function(x){
+     return String(x[field]||"-");
+   });
+
+   const unique=[...new Set(vals.filter(Boolean))].sort(function(a,b){
+     return String(a).localeCompare(String(b),"zh-CN",{numeric:true});
+   });
+
+   el.innerHTML='<option value="">'+label+'</option>'+
+     unique.map(function(v){
+       return '<option value="'+esc(v)+'">'+esc(v)+'</option>';
+     }).join("");
+
+   // 如果当前选择在联动后仍有效就保留，否则自动清空。
+   if(currentValue && unique.includes(currentValue)){
+     el.value=currentValue;
+   }else{
+     el.value="";
+   }
+ }
+
+ buildOne("customerFilter","全部客户","customer",selected.customer);
+ buildOne("dateFilter","全部日期","date",selected.date);
+ buildOne("palletFilter","全部托盘","pallet",selected.pallet);
+}
+
+function onBatchFilterChangeV81(){
+ // 先根据另外两个筛选条件重建三组可选项，再渲染结果。
+ buildFilters();
+ renderCurrent();
+}
+
+function passFilters(x){
+ const v=currentBatchFilterValuesV81();
+ if(v.customer&&(x.customer||"-")!==v.customer)return false;
+ if(v.date&&(x.date||"-")!==v.date)return false;
+ if(v.pallet&&(x.pallet||"-")!==v.pallet)return false;
+ return true;
+}
+function clearBatchFiltersV79(){
+ ["customerFilter","dateFilter","palletFilter","sortField"].forEach(function(id){
+   const el=document.getElementById(id);
+   if(el)el.value="";
+ });
+ buildFilters();
+ renderCurrent();
+}
+
+function passFilters(x){
+ const c=document.getElementById("customerFilter").value;
+ const d=document.getElementById("dateFilter").value;
+ const p=document.getElementById("palletFilter").value;
+ return (!c||(x.customer||"-")===c)&&(!d||(x.date||"-")===d)&&(!p||(x.pallet||"-")===p);
+}
+function sortItems(arr){
+ const f=document.getElementById("sortField").value;
+ return f?arr.slice().sort((a,b)=>String(a[f]||"").localeCompare(String(b[f]||""),"zh-CN",{numeric:true})):arr;
+}
+function card(x){
+ return '<div class="result"><b>快递：</b>'+esc(x.express||"-")+
+ '<br><b>客户：</b>'+esc(x.customer||"-")+
+ '<br><b>日期：</b>'+esc(x.date||"-")+
+ '<br><b>托盘：</b>'+esc(x.pallet||"-")+'</div>';
+}
+async function quickSearch(){
+ if(!(await refreshLatestDataV75(false))){document.getElementById("results").innerHTML='<div class="result missing">最新数据读取失败，请稍后重试</div>';return;}
+ const q=String(document.getElementById("quick").value||"").trim();
+ if(!q)return;
+ currentMode="quick";
+ currentItems=(payload.items||[]).filter(x=>{
+   const e=String(x.express||""),l=String(x.last4||e.slice(-4));
+   return e.includes(q)||l===q||String(x.customer||"").includes(q)||String(x.pallet||"").includes(q);
+ });
+ renderCurrent();
+}
+async function batchSearch(){
+ if(!(await refreshLatestDataV75(false))){document.getElementById("results").innerHTML='<div class="result missing">最新数据读取失败，请稍后重试</div>';return;}
+ if(!(payload&&payload.features&&payload.features.batchQuery)){
+   document.getElementById("results").innerHTML='<div class="result missing">Batch query is disabled.</div>';
+   return;
+ }
+ const lines=String(document.getElementById("batch").value||"").split(/\r?\n/).map(v=>v.trim()).filter(Boolean);
+ currentMode="batch";
+ currentBatch=lines.map((line,index)=>{
+   const digits=line.replace(/\D/g,"");
+   const key=digits.length>=4?digits.slice(-4):line.slice(-4);
+   const matches=(payload.items||[]).filter(x=>String(x.last4||String(x.express||"").slice(-4))===key);
+   return {index,line,key,matches};
+ });
+ buildFilters();
+ renderCurrent();
+}
+function renderCurrent(){
+ const box=document.getElementById("results");
+
+ if(currentMode==="quick"){
+   const arr=currentItems;
+   box.innerHTML=arr.length?arr.map(card).join(""):'<div class="result missing">未找到</div>';
+   return;
+ }
+
+ if(currentMode==="batch"){
+   const sortField=document.getElementById("sortField")?.value||"";
+
+   // 默认：严格保持用户批量输入的原始顺序。
+   if(!sortField){
+     const blocks=[];
+     currentBatch.forEach(function(e){
+       const arr=e.matches.filter(passFilters);
+
+       // 真正没有匹配到的单号，始终按原位置显示红字“未找到”。
+       if(!e.matches.length){
+         blocks.push(
+           '<div class="result missing"><b>'+
+           (e.index+1)+'. '+esc(e.line)+
+           '</b> → 未找到</div>'
+         );
+       }else if(arr.length){
+         blocks.push(
+           '<div class="result"><b>'+
+           (e.index+1)+'. '+esc(e.line)+
+           '</b>'+arr.map(card).join("")+'</div>'
+         );
+       }
+       // 有原始匹配、但被筛选条件排除时，不显示。
+     });
+
+     box.innerHTML=blocks.length
+       ? blocks.join("")
+       : '<div class="muted">当前筛选条件下没有结果</div>';
+     return;
+   }
+
+   // 选择排序后：把本次批量查询的“已找到结果”汇总后整体排序。
+   const rows=[];
+   currentBatch.forEach(function(e){
+     (e.matches||[]).forEach(function(x,matchIndex){
+       if(passFilters(x)){
+         rows.push({
+           item:x,
+           inputIndex:e.index,
+           inputLine:e.line,
+           matchIndex:matchIndex
+         });
+       }
+     });
+   });
+
+   rows.sort(function(a,b){
+     const av=String(a.item[sortField]||"");
+     const bv=String(b.item[sortField]||"");
+     const cmp=av.localeCompare(bv,"zh-CN",{numeric:true});
+     if(cmp!==0)return cmp;
+
+     // 同值时保持原批量输入顺序，结果更稳定。
+     if(a.inputIndex!==b.inputIndex)return a.inputIndex-b.inputIndex;
+     return a.matchIndex-b.matchIndex;
+   });
+
+   const foundHtml=rows.map(function(r){
+     return '<div class="result">'+
+       '<div class="muted">原输入 '+(r.inputIndex+1)+'. '+esc(r.inputLine)+'</div>'+
+       card(r.item)+
+       '</div>';
+   });
+
+   // 排序模式下，“未找到”没有客户/日期/托盘/快递字段可参与排序，
+   // 因此统一放在已找到结果后面，但仍保留原输入编号。
+   const missingHtml=currentBatch
+     .filter(function(e){return !e.matches.length;})
+     .map(function(e){
+       return '<div class="result missing"><b>'+
+         (e.index+1)+'. '+esc(e.line)+
+         '</b> → 未找到</div>';
+     });
+
+   const all=foundHtml.concat(missingHtml);
+   box.innerHTML=all.length
+     ? all.join("")
+     : '<div class="muted">当前筛选条件下没有结果</div>';
+ }
+}
+requireDailyLogin();
+
+window.addEventListener("pageshow",function(){
+ refreshWhenActiveV75();
+});
+document.addEventListener("visibilitychange",function(){
+ if(document.visibilityState==="visible")refreshWhenActiveV75();
+});
+window.addEventListener("focus",function(){
+ refreshWhenActiveV75();
+});
+
+setInterval(function(){
+ if(sessionStorage.getItem("queryLoginDay") && sessionStorage.getItem("queryLoginDay")!==todayKey()){
+   sessionStorage.removeItem("queryLoginDay");
+   document.getElementById("app").style.display="none";
+   document.getElementById("loginBox").style.display="block";
+   document.getElementById("pwd").value="";
+   document.getElementById("loginMsg").textContent="日期已变化，请重新登录";
+ }
+},60000);
+</script>
+</body>
+</html>
