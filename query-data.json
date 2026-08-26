@@ -1,9 +1,9 @@
 {
   "version": 2,
-  "updatedAt": "2026-08-26T14:30:17.211Z",
+  "updatedAt": "2026-08-26T14:57:27.663Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
   "features": {
-    "batchQuery": true
+    "batchQuery": false
   },
   "items": [
     {
