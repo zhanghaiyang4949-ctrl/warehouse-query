@@ -1,7 +1,10 @@
 {
-  "version": 1,
-  "updatedAt": "2026-08-26T14:11:29.608Z",
+  "version": 2,
+  "updatedAt": "2026-08-26T14:14:49.181Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
+  "features": {
+    "batchQuery": true
+  },
   "items": [
     {
       "express": "7965",
