@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-26T09:53:10.725Z",
+  "updatedAt": "2026-08-26T09:53:15.654Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
   "items": [
     {
@@ -12263,6 +12263,13 @@
     {
       "express": "1930",
       "last4": "1930",
+      "customer": "BUU",
+      "date": "2026-07-30",
+      "pallet": "D-1-4-8"
+    },
+    {
+      "express": "1941",
+      "last4": "1941",
       "customer": "BUU",
       "date": "2026-07-30",
       "pallet": "D-1-4-8"
