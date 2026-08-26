@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-26T10:06:03.988Z",
+  "updatedAt": "2026-08-26T10:06:34.479Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
   "items": [
     {
@@ -12390,6 +12390,13 @@
       "express": "0124",
       "last4": "0124",
       "customer": "LL",
+      "date": "2026-07-30",
+      "pallet": "D-1-4-8"
+    },
+    {
+      "express": "5924",
+      "last4": "5924",
+      "customer": "MOS",
       "date": "2026-07-30",
       "pallet": "D-1-4-8"
     }
