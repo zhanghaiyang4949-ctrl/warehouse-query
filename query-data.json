@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-09-05T13:09:19.594Z",
+  "updatedAt": "2026-09-05T15:15:16.233Z",
   "passwordHash": "98a4f7655958a385a0667bad61bac1b10f31df5f39eb57e06527dc1949acaf18",
   "features": {
     "batchQuery": false
@@ -859,6 +859,13 @@
       "customer": "TSD",
       "date": "2026-09-04",
       "pallet": "D-1-5-3"
+    },
+    {
+      "express": "1111",
+      "last4": "1111",
+      "customer": "test",
+      "date": "2026-09-05",
+      "pallet": "T-0-0-0"
     }
   ]
 }
