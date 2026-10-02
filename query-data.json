@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-02T05:51:04.039Z",
+  "updatedAt": "2026-10-02T05:51:41.540Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -16975,11 +16975,109 @@
       "pallet": "D-1-2-4"
     },
     {
+      "express": "463253472953",
+      "last4": "2953",
+      "customer": "NOMI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463253473874",
+      "last4": "3874",
+      "customer": "MI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463253472662",
+      "last4": "2662",
+      "customer": "MI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463253473270",
+      "last4": "3270",
+      "customer": "MI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463253472765",
+      "last4": "2765",
+      "customer": "MI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463253473550",
+      "last4": "3550",
+      "customer": "MI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463253472706",
+      "last4": "2706",
+      "customer": "MI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463253472894",
+      "last4": "2894",
+      "customer": "MI",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "600152485642",
+      "last4": "5642",
+      "customer": "MUMU",
+      "date": "2026-09-15",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "600152485675",
+      "last4": "5675",
+      "customer": "MUMU",
+      "date": "2026-09-15",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "261730878485",
+      "last4": "8485",
+      "customer": "YOOH",
+      "date": "2026-09-15",
+      "pallet": "D-1-2-4"
+    },
+    {
       "express": "303284485223",
       "last4": "5223",
       "customer": "S",
       "date": "2026-09-15",
       "pallet": "D-1-2-2"
+    },
+    {
+      "express": "301072876000",
+      "last4": "6000",
+      "customer": "VV",
+      "date": "2026-09-15",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "301072878085",
+      "last4": "8085",
+      "customer": "VV",
+      "date": "2026-09-15",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "6413906010863",
+      "last4": "0863",
+      "customer": "SYV",
+      "date": "2026-09-15",
+      "pallet": "D-1-2-4"
     },
     {
       "express": "253190012003",
@@ -17073,11 +17171,256 @@
       "pallet": "D-1-6-8"
     },
     {
+      "express": "537556347871",
+      "last4": "7871",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537556347860",
+      "last4": "7860",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537556347882",
+      "last4": "7882",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "522652070422",
+      "last4": "0422",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "512101252086",
+      "last4": "2086",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537538885041",
+      "last4": "5041",
+      "customer": "KEW",
+      "date": "2026-09-14",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "256292585710",
+      "last4": "5710",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "522635321835",
+      "last4": "1835",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "522652048910",
+      "last4": "8910",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463283381842",
+      "last4": "1842",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
       "express": "463283380851",
       "last4": "0851",
       "customer": "KEW",
       "date": "2026-09-17",
       "pallet": "D-1-2-2"
+    },
+    {
+      "express": "463283381050",
+      "last4": "1050",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463283380420",
+      "last4": "0420",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "256292586174",
+      "last4": "6174",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "256292586045",
+      "last4": "6045",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "256292585651",
+      "last4": "5651",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "512098793513",
+      "last4": "3513",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537546353116",
+      "last4": "3116",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537567504445",
+      "last4": "4445",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537567505086",
+      "last4": "5086",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537567505020",
+      "last4": "5020",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537567502091",
+      "last4": "2091",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537567504320",
+      "last4": "4320",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537567504386",
+      "last4": "4386",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537468330044",
+      "last4": "0044",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537468330103",
+      "last4": "0103",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537468330081",
+      "last4": "0081",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "537468330066",
+      "last4": "0066",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "522635321776",
+      "last4": "1776",
+      "customer": "KEW",
+      "date": "2026-09-15",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "256292585883",
+      "last4": "5883",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "256292586130",
+      "last4": "6130",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "261730921082",
+      "last4": "1082",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463283381212",
+      "last4": "1212",
+      "customer": "KEW",
+      "date": "2026-09-17",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463283381035",
+      "last4": "1035",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463283381676",
+      "last4": "1676",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
+    },
+    {
+      "express": "463283381046",
+      "last4": "1046",
+      "customer": "KEW",
+      "date": "2026-09-16",
+      "pallet": "D-1-2-4"
     },
     {
       "express": "463283381831",
