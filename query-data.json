@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-02T06:03:54.243Z",
+  "updatedAt": "2026-10-02T06:04:20.609Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -24265,6 +24265,13 @@
       "express": "600658405215",
       "last4": "5215",
       "customer": "NOMI",
+      "date": "2026-10-02",
+      "pallet": "D-1-2-3"
+    },
+    {
+      "express": "600658404633",
+      "last4": "4633",
+      "customer": "KEW",
       "date": "2026-10-02",
       "pallet": "D-1-2-3"
     }
