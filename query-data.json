@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-12T00:39:53.920Z",
+  "updatedAt": "2026-10-12T00:40:09.444Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -25884,6 +25884,62 @@
       "customer": "EVE",
       "date": "2026-10-07",
       "pallet": "D-1-6-8"
+    },
+    {
+      "express": "261102061135",
+      "last4": "1135",
+      "customer": "LL",
+      "date": "2026-10-07",
+      "pallet": "D-1-1-2"
+    },
+    {
+      "express": "261102192061",
+      "last4": "2061",
+      "customer": "KEW",
+      "date": "2026-10-07",
+      "pallet": "D-1-1-2"
+    },
+    {
+      "express": "261102192094",
+      "last4": "2094",
+      "customer": "KEW",
+      "date": "2026-10-07",
+      "pallet": "D-1-1-2"
+    },
+    {
+      "express": "261102188185",
+      "last4": "8185",
+      "customer": "LL",
+      "date": "2026-10-07",
+      "pallet": "D-1-1-2"
+    },
+    {
+      "express": "301074757014",
+      "last4": "7014",
+      "customer": "S",
+      "date": "2026-10-08",
+      "pallet": "D-1-1-7"
+    },
+    {
+      "express": "301074852181",
+      "last4": "2181",
+      "customer": "S",
+      "date": "2026-10-08",
+      "pallet": "D-1-1-7"
+    },
+    {
+      "express": "301075009504",
+      "last4": "9504",
+      "customer": "GGBD",
+      "date": "2026-10-08",
+      "pallet": "D-1-1-7"
+    },
+    {
+      "express": "537684677062",
+      "last4": "7062",
+      "customer": "YOOH",
+      "date": "2026-10-08",
+      "pallet": "D-1-5-7"
     }
   ]
 }
