@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-15T01:57:19.548Z",
+  "updatedAt": "2026-10-15T02:01:07.407Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -1120,13 +1120,6 @@
       "pallet": "D-1-5-7"
     },
     {
-      "express": "268398706251",
-      "last4": "6251",
-      "customer": "AA",
-      "date": "2026-09-03",
-      "pallet": "D-1-5-6"
-    },
-    {
       "express": "537493758406",
       "last4": "8406",
       "customer": "MI",
@@ -1195,13 +1188,6 @@
       "customer": "OVA",
       "date": "2026-09-02",
       "pallet": "D-1-5-7"
-    },
-    {
-      "express": "600127430085",
-      "last4": "0085",
-      "customer": "AA",
-      "date": "2026-09-04",
-      "pallet": "D-1-5-8"
     },
     {
       "express": "300853595120",
@@ -1974,13 +1960,6 @@
       "pallet": "D-1-5-5"
     },
     {
-      "express": "45067259090",
-      "last4": "9090",
-      "customer": "AA",
-      "date": "2026-09-04",
-      "pallet": "D-1-5-1"
-    },
-    {
       "express": "300853593252",
       "last4": "3252",
       "customer": "BETY",
@@ -2399,13 +2378,6 @@
       "customer": "BETY",
       "date": "2026-09-04",
       "pallet": "D-1-5-8"
-    },
-    {
-      "express": "45067259064",
-      "last4": "9064",
-      "customer": "AA",
-      "date": "2026-09-04",
-      "pallet": "D-1-5-2"
     },
     {
       "express": "300851907862",
@@ -5509,13 +5481,6 @@
       "pallet": "D-1-6-2"
     },
     {
-      "express": "45084968902",
-      "last4": "8902",
-      "customer": "AA",
-      "date": "2026-09-07",
-      "pallet": "D-1-1-6"
-    },
-    {
       "express": "699700230024",
       "last4": "0024",
       "customer": "GGBD",
@@ -6321,13 +6286,6 @@
       "pallet": "D-1-1-6"
     },
     {
-      "express": "45084968891",
-      "last4": "8891",
-      "customer": "AA",
-      "date": "2026-09-07",
-      "pallet": "D-1-1-6"
-    },
-    {
       "express": "600146148660",
       "last4": "8660",
       "customer": "KEW",
@@ -6636,13 +6594,6 @@
       "pallet": "D-1-1-8"
     },
     {
-      "express": "45081950583",
-      "last4": "0583",
-      "customer": "AA",
-      "date": "2026-09-07",
-      "pallet": "D-1-1-6"
-    },
-    {
       "express": "537300862803",
       "last4": "2803",
       "customer": "BETY",
@@ -6774,13 +6725,6 @@
       "customer": "LES",
       "date": "2026-04-08",
       "pallet": "D-1-1-8"
-    },
-    {
-      "express": "45081950572",
-      "last4": "0572",
-      "customer": "AA",
-      "date": "2026-09-07",
-      "pallet": "D-1-1-6"
     },
     {
       "express": "462608767611",
