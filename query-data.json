@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-21T06:37:05.160Z",
+  "updatedAt": "2026-10-21T06:40:47.667Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -30851,6 +30851,13 @@
     {
       "express": "600998485740",
       "last4": "5740",
+      "customer": "GGBD",
+      "date": "2026-10-21",
+      "pallet": "D-1-5-4"
+    },
+    {
+      "express": "600986220465",
+      "last4": "0465",
       "customer": "GGBD",
       "date": "2026-10-21",
       "pallet": "D-1-5-4"
