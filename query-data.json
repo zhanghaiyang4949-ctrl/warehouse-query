@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-21T04:57:24.612Z",
+  "updatedAt": "2026-10-21T06:15:41.778Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -1516,7 +1516,7 @@
       "last4": "8401",
       "customer": "BETY",
       "date": "2026-09-04",
-      "pallet": "D-1-5-8"
+      "pallet": "D-1-5-7"
     },
     {
       "express": "300853593182",
@@ -23111,7 +23111,7 @@
       "last4": "2320",
       "customer": "BETY",
       "date": "2026-10-01",
-      "pallet": "D-1-5-8"
+      "pallet": "D-1-5-7"
     },
     {
       "express": "261102033205",
@@ -30426,7 +30426,7 @@
       "last4": "8353",
       "customer": "BETY",
       "date": "2026-10-20",
-      "pallet": "D-1-5-8"
+      "pallet": "D-1-5-7"
     },
     {
       "express": "512165662446",
