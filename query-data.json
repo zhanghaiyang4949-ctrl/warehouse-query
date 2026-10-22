@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-22T02:00:08.407Z",
+  "updatedAt": "2026-10-22T02:41:43.883Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -5009,7 +5009,7 @@
       "last4": "0390",
       "customer": "OVA",
       "date": "2026-07-01",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-1"
     },
     {
       "express": "699088773875",
@@ -5156,7 +5156,7 @@
       "last4": "2944",
       "customer": "KEE",
       "date": "2026-05-27",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-1"
     },
     {
       "express": "261730767642",
@@ -5611,7 +5611,7 @@
       "last4": "0252",
       "customer": "OVA",
       "date": "2026-08-28",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-1"
     },
     {
       "express": "6897141765374",
@@ -5828,7 +5828,7 @@
       "last4": "7681",
       "customer": "KEE",
       "date": "2026-08-20",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-1"
     },
     {
       "express": "600131566304",
@@ -5877,7 +5877,7 @@
       "last4": "1083",
       "customer": "OVA",
       "date": "2026-06-22",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-1"
     },
     {
       "express": "508777667286",
@@ -6416,7 +6416,7 @@
       "last4": "6996",
       "customer": "OVA",
       "date": "2026-06-14",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-1"
     },
     {
       "express": "600154858174",
