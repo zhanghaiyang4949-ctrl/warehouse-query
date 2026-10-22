@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-22T02:46:11.722Z",
+  "updatedAt": "2026-10-22T02:48:23.581Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -5569,7 +5569,7 @@
       "last4": "5379",
       "customer": "LYL",
       "date": "2026-07-14",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-4"
     },
     {
       "express": "522497860724",
@@ -5996,7 +5996,7 @@
       "last4": "5372",
       "customer": "LYL",
       "date": "2026-07-14",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-4"
     },
     {
       "express": "537312225494",
@@ -6941,7 +6941,7 @@
       "last4": "5375",
       "customer": "LYL",
       "date": "2026-07-14",
-      "pallet": "D-1-1-6"
+      "pallet": "E-1-1-4"
     },
     {
       "express": "600146148671",
