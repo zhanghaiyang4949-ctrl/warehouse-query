@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-30T06:35:52.649Z",
+  "updatedAt": "2026-10-30T06:36:39.964Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -16523,6 +16523,13 @@
       "express": "522865760800",
       "last4": "0800",
       "customer": "YU",
+      "date": "2026-10-29",
+      "pallet": "D-1-6-7"
+    },
+    {
+      "express": "601126984600",
+      "last4": "4600",
+      "customer": "CATFA",
       "date": "2026-10-29",
       "pallet": "D-1-6-7"
     }
