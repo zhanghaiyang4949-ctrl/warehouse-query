@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T00:49:20.092Z",
+  "updatedAt": "2026-11-02T03:21:18.618Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -10416,13 +10416,6 @@
       "pallet": "D-1-5-5"
     },
     {
-      "express": "301075035021",
-      "last4": "5021",
-      "customer": "NOMI",
-      "date": "2026-10-08",
-      "pallet": "D-1-5-5"
-    },
-    {
       "express": "301075035253",
       "last4": "5253",
       "customer": "ELLA",
@@ -10449,13 +10442,6 @@
       "customer": "JOO",
       "date": "2026-10-08",
       "pallet": "D-1-1-1"
-    },
-    {
-      "express": "301075035032",
-      "last4": "5032",
-      "customer": "NOMI",
-      "date": "2026-10-08",
-      "pallet": "D-1-5-4"
     },
     {
       "express": "541026135762",
@@ -11326,13 +11312,6 @@
       "pallet": "D-1-1-1"
     },
     {
-      "express": "301075035172",
-      "last4": "5172",
-      "customer": "NOMI",
-      "date": "2026-10-13",
-      "pallet": "D-1-1-1"
-    },
-    {
       "express": "301075035220",
       "last4": "5220",
       "customer": "BETY",
@@ -11966,13 +11945,6 @@
       "express": "301075037095",
       "last4": "7095",
       "customer": "BETY",
-      "date": "2026-10-13",
-      "pallet": "D-1-2-6"
-    },
-    {
-      "express": "301075035161",
-      "last4": "5161",
-      "customer": "NOMI",
       "date": "2026-10-13",
       "pallet": "D-1-2-6"
     },
@@ -13286,13 +13258,6 @@
       "pallet": "D-1-6-2"
     },
     {
-      "express": "522815664541",
-      "last4": "4541",
-      "customer": "WEE",
-      "date": "2026-10-19",
-      "pallet": "D-1-1-7"
-    },
-    {
       "express": "600905820160",
       "last4": "0160",
       "customer": "MUMU",
@@ -14392,13 +14357,6 @@
       "pallet": "D-1-1-4"
     },
     {
-      "express": "522836090891",
-      "last4": "0891",
-      "customer": "NOMI",
-      "date": "2026-10-22",
-      "pallet": "D-1-2-1"
-    },
-    {
       "express": "463478972961",
       "last4": "2961",
       "customer": "LL",
@@ -14418,13 +14376,6 @@
       "customer": "LL",
       "date": "2026-10-22",
       "pallet": "D-1-6-5"
-    },
-    {
-      "express": "512180867990",
-      "last4": "7990",
-      "customer": "NOMI",
-      "date": "2026-10-22",
-      "pallet": "D-1-1-7"
     },
     {
       "express": "522836096513",
@@ -14910,55 +14861,6 @@
       "pallet": "D-1-5-1"
     },
     {
-      "express": "256790684544",
-      "last4": "4544",
-      "customer": "NOMI",
-      "date": "2026-10-26",
-      "pallet": "D-1-6-5"
-    },
-    {
-      "express": "256790684533",
-      "last4": "4533",
-      "customer": "NOMI",
-      "date": "2026-10-26",
-      "pallet": "D-1-6-5"
-    },
-    {
-      "express": "256790684522",
-      "last4": "4522",
-      "customer": "NOMI",
-      "date": "2026-10-26",
-      "pallet": "D-1-6-5"
-    },
-    {
-      "express": "256790684511",
-      "last4": "4511",
-      "customer": "NOMI",
-      "date": "2026-10-26",
-      "pallet": "D-1-6-5"
-    },
-    {
-      "express": "256790684555",
-      "last4": "4555",
-      "customer": "NOMI",
-      "date": "2026-10-26",
-      "pallet": "D-1-6-5"
-    },
-    {
-      "express": "256790683085",
-      "last4": "3085",
-      "customer": "NOMI",
-      "date": "2026-10-26",
-      "pallet": "D-1-6-2"
-    },
-    {
-      "express": "256790683225",
-      "last4": "3225",
-      "customer": "NOMI",
-      "date": "2026-10-26",
-      "pallet": "D-1-6-2"
-    },
-    {
       "express": "700071049720",
       "last4": "9720",
       "customer": "PP",
@@ -14994,44 +14896,9 @@
       "pallet": "D-1-6-2"
     },
     {
-      "express": "522846710355",
-      "last4": "0355",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-8"
-    },
-    {
       "express": "522846635024",
       "last4": "5024",
       "customer": "KEW",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-8"
-    },
-    {
-      "express": "512195288443",
-      "last4": "8443",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-8"
-    },
-    {
-      "express": "522846708874",
-      "last4": "8874",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-8"
-    },
-    {
-      "express": "522846711000",
-      "last4": "1000",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-8"
-    },
-    {
-      "express": "522846710893",
-      "last4": "0893",
-      "customer": "NOMI",
       "date": "2026-10-27",
       "pallet": "D-1-5-8"
     },
@@ -15120,81 +14987,11 @@
       "pallet": "D-1-1-8"
     },
     {
-      "express": "522846734240",
-      "last4": "4240",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-6-2"
-    },
-    {
       "express": "522846714566",
       "last4": "4566",
       "customer": "NOMI",
       "date": "2026-10-27",
       "pallet": "D-1-6-2"
-    },
-    {
-      "express": "522846717156",
-      "last4": "7156",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-6-2"
-    },
-    {
-      "express": "512195288126",
-      "last4": "8126",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-6-2"
-    },
-    {
-      "express": "512195292083",
-      "last4": "2083",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-6-4"
-    },
-    {
-      "express": "512195288141",
-      "last4": "8141",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-6-4"
-    },
-    {
-      "express": "522846719794",
-      "last4": "9794",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-6-4"
-    },
-    {
-      "express": "522846734870",
-      "last4": "4870",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-7"
-    },
-    {
-      "express": "522846734704",
-      "last4": "4704",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-7"
-    },
-    {
-      "express": "522846710366",
-      "last4": "0366",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-7"
-    },
-    {
-      "express": "512195292492",
-      "last4": "2492",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-7"
     },
     {
       "express": "522842118193",
@@ -15237,13 +15034,6 @@
       "customer": "KEW",
       "date": "2026-10-27",
       "pallet": "D-1-1-3"
-    },
-    {
-      "express": "522846734225",
-      "last4": "4225",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-5"
     },
     {
       "express": "537762135481",
@@ -15293,62 +15083,6 @@
       "customer": "SC",
       "date": "2026-10-27",
       "pallet": "D-1-5-1"
-    },
-    {
-      "express": "522846735872",
-      "last4": "5872",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
-    },
-    {
-      "express": "522846735743",
-      "last4": "5743",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
-    },
-    {
-      "express": "522846710882",
-      "last4": "0882",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
-    },
-    {
-      "express": "522846716596",
-      "last4": "6596",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
-    },
-    {
-      "express": "522846717672",
-      "last4": "7672",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
-    },
-    {
-      "express": "522846717646",
-      "last4": "7646",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
-    },
-    {
-      "express": "522846719212",
-      "last4": "9212",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
-    },
-    {
-      "express": "522841276071",
-      "last4": "6071",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-1-6"
     },
     {
       "express": "512191272016",
@@ -15540,13 +15274,6 @@
       "pallet": "D-1-6-6"
     },
     {
-      "express": "522846733713",
-      "last4": "3713",
-      "customer": "NOMI",
-      "date": "2026-10-27",
-      "pallet": "D-1-6-6"
-    },
-    {
       "express": "301076573201",
       "last4": "3201",
       "customer": "QH",
@@ -15659,20 +15386,6 @@
       "pallet": "D-1-5-1"
     },
     {
-      "express": "522846708933",
-      "last4": "8933",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-2"
-    },
-    {
-      "express": "522846719890",
-      "last4": "9890",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-2"
-    },
-    {
       "express": "522842118635",
       "last4": "8635",
       "customer": "BTBBB",
@@ -15708,13 +15421,6 @@
       "pallet": "D-1-5-5"
     },
     {
-      "express": "522846709810",
-      "last4": "9810",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-5"
-    },
-    {
       "express": "512195251542",
       "last4": "1542",
       "customer": "BETY",
@@ -15729,25 +15435,11 @@
       "pallet": "D-1-5-5"
     },
     {
-      "express": "512188585210",
-      "last4": "5210",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-5"
-    },
-    {
       "express": "522846625040",
       "last4": "5040",
       "customer": "BETY",
       "date": "2026-10-28",
       "pallet": "D-1-5-5"
-    },
-    {
-      "express": "522846719691",
-      "last4": "9691",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-6"
     },
     {
       "express": "522842118473",
@@ -15764,30 +15456,9 @@
       "pallet": "D-1-1-5"
     },
     {
-      "express": "522846733234",
-      "last4": "3234",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-1-5"
-    },
-    {
       "express": "512191272215",
       "last4": "2215",
       "customer": "KEW",
-      "date": "2026-10-28",
-      "pallet": "D-1-1-5"
-    },
-    {
-      "express": "512195291346",
-      "last4": "1346",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-1-5"
-    },
-    {
-      "express": "522846709154",
-      "last4": "9154",
-      "customer": "NOMI",
       "date": "2026-10-28",
       "pallet": "D-1-1-5"
     },
@@ -15802,20 +15473,6 @@
       "express": "522846658721",
       "last4": "8721",
       "customer": "KEW",
-      "date": "2026-10-28",
-      "pallet": "D-1-2-6"
-    },
-    {
-      "express": "512188585361",
-      "last4": "5361",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-2-6"
-    },
-    {
-      "express": "522846733610",
-      "last4": "3610",
-      "customer": "NOMI",
       "date": "2026-10-28",
       "pallet": "D-1-2-6"
     },
@@ -16009,30 +15666,9 @@
       "pallet": "D-1-5-4"
     },
     {
-      "express": "522846709655",
-      "last4": "9655",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-3"
-    },
-    {
-      "express": "522846707220",
-      "last4": "7220",
-      "customer": "NOMI",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-3"
-    },
-    {
       "express": "522842118171",
       "last4": "8171",
       "customer": "BTBBB",
-      "date": "2026-10-28",
-      "pallet": "D-1-5-3"
-    },
-    {
-      "express": "522846709106",
-      "last4": "9106",
-      "customer": "NOMI",
       "date": "2026-10-28",
       "pallet": "D-1-5-3"
     },
