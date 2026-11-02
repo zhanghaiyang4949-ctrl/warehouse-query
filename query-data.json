@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T03:24:00.805Z",
+  "updatedAt": "2026-11-02T03:25:46.378Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -12705,13 +12705,6 @@
       "pallet": "D-1-1-1"
     },
     {
-      "express": "303308954946",
-      "last4": "4946",
-      "customer": "SC",
-      "date": "2026-10-16",
-      "pallet": "D-1-6-5"
-    },
-    {
       "express": "522806721702",
       "last4": "1702",
       "customer": "KEW",
@@ -13268,13 +13261,6 @@
       "express": "600910077722",
       "last4": "7722",
       "customer": "KYS",
-      "date": "2026-10-20",
-      "pallet": "D-1-1-7"
-    },
-    {
-      "express": "6156601011996",
-      "last4": "1996",
-      "customer": "SC",
       "date": "2026-10-20",
       "pallet": "D-1-1-7"
     },
@@ -14847,13 +14833,6 @@
       "pallet": "D-1-5-1"
     },
     {
-      "express": "522914231910",
-      "last4": "1910",
-      "customer": "SC",
-      "date": "2026-10-26",
-      "pallet": "D-1-5-1"
-    },
-    {
       "express": "700071049720",
       "last4": "9720",
       "customer": "PP",
@@ -14948,13 +14927,6 @@
       "express": "301076573153",
       "last4": "3153",
       "customer": "QH",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-4"
-    },
-    {
-      "express": "521971740150",
-      "last4": "0150",
-      "customer": "SODELAOBAN",
       "date": "2026-10-27",
       "pallet": "D-1-5-4"
     },
@@ -15060,20 +15032,6 @@
       "express": "537759087832",
       "last4": "7832",
       "customer": "MOS",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-1"
-    },
-    {
-      "express": "521971695604",
-      "last4": "5604",
-      "customer": "SODELAOBAN",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-1"
-    },
-    {
-      "express": "521971725446",
-      "last4": "5446",
-      "customer": "SC",
       "date": "2026-10-27",
       "pallet": "D-1-5-1"
     },
@@ -16047,13 +16005,6 @@
       "express": "463587482831",
       "last4": "2831",
       "customer": "BETY",
-      "date": "2026-10-29",
-      "pallet": "D-1-6-7"
-    },
-    {
-      "express": "266549497174",
-      "last4": "7174",
-      "customer": "SODELAOBAN",
       "date": "2026-10-29",
       "pallet": "D-1-6-7"
     },
