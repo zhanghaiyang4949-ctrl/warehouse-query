@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T03:25:46.378Z",
+  "updatedAt": "2026-11-02T03:27:19.573Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -14378,20 +14378,6 @@
       "pallet": "D-1-1-7"
     },
     {
-      "express": "601041055061",
-      "last4": "5061",
-      "customer": "MUMU",
-      "date": "2026-10-26",
-      "pallet": "D-1-2-5"
-    },
-    {
-      "express": "601060265603",
-      "last4": "5603",
-      "customer": "MUMU",
-      "date": "2026-10-26",
-      "pallet": "D-1-2-5"
-    },
-    {
       "express": "541055350483",
       "last4": "0483",
       "customer": "PP",
@@ -15435,13 +15421,6 @@
       "pallet": "D-1-2-6"
     },
     {
-      "express": "601117271934",
-      "last4": "1934",
-      "customer": "MUMU",
-      "date": "2026-10-28",
-      "pallet": "D-1-6-2"
-    },
-    {
       "express": "601117271912",
       "last4": "1912",
       "customer": "MUMU",
@@ -15451,13 +15430,6 @@
     {
       "express": "601117272074",
       "last4": "2074",
-      "customer": "MUMU",
-      "date": "2026-10-28",
-      "pallet": "D-1-6-2"
-    },
-    {
-      "express": "601123663262",
-      "last4": "3262",
       "customer": "MUMU",
       "date": "2026-10-28",
       "pallet": "D-1-6-2"
