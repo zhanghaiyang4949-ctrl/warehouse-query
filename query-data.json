@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-05T06:43:06.356Z",
+  "updatedAt": "2026-11-05T08:50:44.122Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -17255,13 +17255,6 @@
       "pallet": "D-1-6-5"
     },
     {
-      "express": "601257699763",
-      "last4": "9763",
-      "customer": "MUMU",
-      "date": "2026-11-04",
-      "pallet": "D-1-6-5"
-    },
-    {
       "express": "301076992582",
       "last4": "2582",
       "customer": "S",
@@ -17279,13 +17272,6 @@
       "express": "507790664501",
       "last4": "4501",
       "customer": "YOUY",
-      "date": "2026-11-04",
-      "pallet": "D-1-2-5"
-    },
-    {
-      "express": "601258258654",
-      "last4": "8654",
-      "customer": "MUMU",
       "date": "2026-11-04",
       "pallet": "D-1-2-5"
     },
@@ -17883,13 +17869,6 @@
       "customer": "JOO",
       "date": "2026-11-04",
       "pallet": "D-1-5-6"
-    },
-    {
-      "express": "601236320562",
-      "last4": "0562",
-      "customer": "MUMU",
-      "date": "2026-11-04",
-      "pallet": "D-1-1-5"
     },
     {
       "express": "601236320540",
