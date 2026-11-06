@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-06T08:24:27.473Z",
+  "updatedAt": "2026-11-06T08:27:15.853Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -12124,13 +12124,6 @@
       "pallet": "D-1-1-3"
     },
     {
-      "express": "600824225791",
-      "last4": "5791",
-      "customer": "KYS",
-      "date": "2026-10-15",
-      "pallet": "D-1-1-1"
-    },
-    {
       "express": "600885612405",
       "last4": "2405",
       "customer": "KEW",
@@ -13244,24 +13237,10 @@
       "pallet": "D-1-6-2"
     },
     {
-      "express": "600910077722",
-      "last4": "7722",
-      "customer": "KYS",
-      "date": "2026-10-20",
-      "pallet": "D-1-1-7"
-    },
-    {
       "express": "463524305005",
       "last4": "5005",
       "customer": "BETY",
       "date": "2026-10-19",
-      "pallet": "D-1-1-7"
-    },
-    {
-      "express": "522814884656",
-      "last4": "4656",
-      "customer": "KYS",
-      "date": "2026-10-20",
       "pallet": "D-1-1-7"
     },
     {
@@ -15015,13 +14994,6 @@
       "pallet": "D-1-6-1"
     },
     {
-      "express": "601077630713",
-      "last4": "0713",
-      "customer": "KYS",
-      "date": "2026-10-27",
-      "pallet": "D-1-5-1"
-    },
-    {
       "express": "301076310200",
       "last4": "0200",
       "customer": "S",
@@ -15489,13 +15461,6 @@
       "customer": "BETY",
       "date": "2026-10-28",
       "pallet": "D-1-6-7"
-    },
-    {
-      "express": "601098758802",
-      "last4": "8802",
-      "customer": "KYS",
-      "date": "2026-10-29",
-      "pallet": "D-1-5-1"
     },
     {
       "express": "601098758356",
