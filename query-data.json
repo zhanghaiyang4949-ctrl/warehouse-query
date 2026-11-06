@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-06T03:04:07.164Z",
+  "updatedAt": "2026-11-06T03:04:26.112Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -17943,6 +17943,13 @@
     {
       "express": "301077387113",
       "last4": "7113",
+      "customer": "MOEL",
+      "date": "2026-11-06",
+      "pallet": "D-1-1-7"
+    },
+    {
+      "express": "301077388071",
+      "last4": "8071",
       "customer": "MOEL",
       "date": "2026-11-06",
       "pallet": "D-1-1-7"
