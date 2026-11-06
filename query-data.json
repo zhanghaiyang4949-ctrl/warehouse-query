@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-06T08:10:32.874Z",
+  "updatedAt": "2026-11-06T08:10:43.340Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -18153,6 +18153,13 @@
     {
       "express": "463660543113",
       "last4": "3113",
+      "customer": "BETY",
+      "date": "2026-11-05",
+      "pallet": "D-1-1-2"
+    },
+    {
+      "express": "463660542951",
+      "last4": "2951",
       "customer": "BETY",
       "date": "2026-11-05",
       "pallet": "D-1-1-2"
