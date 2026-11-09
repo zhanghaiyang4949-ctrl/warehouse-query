@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-09T03:24:56.421Z",
+  "updatedAt": "2026-11-09T03:28:01.079Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -18686,6 +18686,27 @@
       "express": "537806873973",
       "last4": "3973",
       "customer": "QH",
+      "date": "2026-11-06",
+      "pallet": "D-1-5-1"
+    },
+    {
+      "express": "537822381003",
+      "last4": "1003",
+      "customer": "MOS",
+      "date": "2026-11-06",
+      "pallet": "D-1-5-1"
+    },
+    {
+      "express": "537806873925",
+      "last4": "3925",
+      "customer": "QH",
+      "date": "2026-11-06",
+      "pallet": "D-1-5-1"
+    },
+    {
+      "express": "537822380384",
+      "last4": "0384",
+      "customer": "BETY",
       "date": "2026-11-06",
       "pallet": "D-1-5-1"
     }
