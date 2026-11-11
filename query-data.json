@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-11T07:40:00.680Z",
+  "updatedAt": "2026-11-11T07:48:35.286Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -19297,6 +19297,13 @@
       "customer": "NOVA",
       "date": "2026-11-11",
       "pallet": "D-1-1-7"
+    },
+    {
+      "express": "601284567701",
+      "last4": "7701",
+      "customer": "AA",
+      "date": "2026-11-09",
+      "pallet": "D-1-5-2"
     }
   ]
 }
