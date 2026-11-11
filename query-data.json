@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-11T07:39:42.800Z",
+  "updatedAt": "2026-11-11T07:40:00.680Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -19288,6 +19288,13 @@
       "express": "301077702802",
       "last4": "2802",
       "customer": "SPER",
+      "date": "2026-11-11",
+      "pallet": "D-1-1-7"
+    },
+    {
+      "express": "522913429433",
+      "last4": "9433",
+      "customer": "NOVA",
       "date": "2026-11-11",
       "pallet": "D-1-1-7"
     }
