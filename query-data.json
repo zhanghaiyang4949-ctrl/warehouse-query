@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-12T03:05:33.140Z",
+  "updatedAt": "2026-11-12T03:07:20.778Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -11702,13 +11702,6 @@
       "customer": "KEW",
       "date": "2026-10-13",
       "pallet": "D-1-2-5"
-    },
-    {
-      "express": "261731009772",
-      "last4": "9772",
-      "customer": "CATFA",
-      "date": "2026-10-14",
-      "pallet": "D-1-2-1"
     },
     {
       "express": "600852282760",
