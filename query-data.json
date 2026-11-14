@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-14T07:58:25.811Z",
+  "updatedAt": "2026-11-14T07:58:40.558Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -9783,7 +9783,7 @@
       "last4": "1382",
       "customer": "SUKI",
       "date": "2026-10-01",
-      "pallet": "D-1-6-6"
+      "pallet": "D-1-2-5"
     },
     {
       "express": "600602986182",
