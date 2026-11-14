@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-14T01:21:54.688Z",
+  "updatedAt": "2026-11-14T01:22:12.200Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -19350,6 +19350,13 @@
     {
       "express": "45527290465",
       "last4": "0465",
+      "customer": "YAMA",
+      "date": "2026-11-12",
+      "pallet": "D-1-1-8"
+    },
+    {
+      "express": "45527290421",
+      "last4": "0421",
       "customer": "YAMA",
       "date": "2026-11-12",
       "pallet": "D-1-1-8"
