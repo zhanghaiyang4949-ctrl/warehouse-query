@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-14T06:53:05.872Z",
+  "updatedAt": "2026-11-14T06:53:33.516Z",
   "passwordHash": "5e7d5a0361c8863df42a52b75b329ecd81a5014208250a468946047df488b672",
   "features": {
     "batchQuery": true
@@ -20172,6 +20172,13 @@
       "customer": "SPER",
       "date": "2026-11-14",
       "pallet": "D-1-5-1"
+    },
+    {
+      "express": "531104923772",
+      "last4": "3772",
+      "customer": "MIMI",
+      "date": "2026-11-14",
+      "pallet": "D-1-5-2"
     }
   ]
 }
