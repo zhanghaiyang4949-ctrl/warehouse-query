@@ -16,7 +16,7 @@
   $('results').innerHTML='<div class="muted">请输入单号查询</div>';$('app').style.display='none';$('loginBox').style.display='block';$('pwd').value='';$('loginMsg').textContent=message||'';
  }
  async function call(action,args={}){
-  const own=epoch,controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
+  const own=epoch,controller=new AbortController(),timer=setTimeout(()=>controller.abort(),25000);
   try{
    const response=await fetch(endpoint(),{method:'POST',headers:{'Content-Type':'application/json',...(session?{Authorization:'Bearer '+session.token}:{})},body:JSON.stringify({action,args}),signal:controller.signal,cache:'no-store'});
    const result=await response.json();
@@ -80,6 +80,7 @@
  async function login(){
   if(loginBusy)return;loginBusy=true;clearTimeout(pollTimer);
   const button=$('loginButton');button.disabled=true;
+  $('loginMsg').textContent='正在验证登录，请稍候…';
   try{
    const name=$('personName').value.trim(),password=$('pwd').value;
    const result=await call('login',{...credentials(),name,password,label:navigator.platform+' / '+navigator.userAgent.slice(0,65)});
