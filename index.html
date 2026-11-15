@@ -27,20 +27,21 @@ html.v76AuthPending body{visibility:hidden}
 <script>
 document.documentElement.classList.add("v76AuthPending");
 </script>
+<link rel="stylesheet" href="assets/query.css?v=20261115">
 </head>
 <body>
 <div class="wrap">
   <div id="loginBox" class="card">
     <h3>只读查询登录</h3>
-    <div class="muted">每天第一次使用需要重新输入密码。</div>
-    <div class="row" style="margin-top:10px">
+    <div class="muted">首次输入姓名和查询密码，管理员审核通过后才能查询。</div>
+    <label for="personName">人员姓名</label><input id="personName" autocomplete="name" maxlength="40" placeholder="输入本人姓名"><label for="pwd">查询密码</label><div style="margin-top:6px">
       <input id="pwd" type="password" placeholder="输入查询密码">
-      <button class="primary" onclick="login()">登录</button>
+      <button id="loginButton" class="primary" onclick="login()">登录／提交申请</button>
     </div>
     <div id="loginMsg" class="muted" style="margin-top:8px"></div>
   </div>
 
-  <div id="app">
+  <div id="app"><div class="query-header"><h3>货物查询</h3><button id="logoutButton" class="gray" type="button">退出登录</button></div>
     <div class="card">
       <div class="row">
         <input id="quick" inputmode="numeric" placeholder="输入单号/后4位">
@@ -59,11 +60,11 @@ document.documentElement.classList.add("v76AuthPending");
     </div>
 
     <div class="card" id="batchFilterSortCardV78" style="display:none">
-      <div class="row">
+      <div class="filter-row">
         <select id="customerFilter" onchange="onBatchFilterChangeV81()"><option value="">全部客户</option></select>
         <select id="dateFilter" onchange="onBatchFilterChangeV81()"><option value="">全部日期</option></select>
       </div>
-      <div class="row" style="margin-top:6px">
+      <div class="filter-row filter-sort-row" style="margin-top:6px">
         <select id="palletFilter" onchange="onBatchFilterChangeV81()"><option value="">全部托盘</option></select>
         <select id="sortField" onchange="renderCurrent()">
           <option value="">输入顺序</option>
@@ -71,7 +72,7 @@ document.documentElement.classList.add("v76AuthPending");
           <option value="date">日期</option>
           <option value="pallet">托盘</option>
           <option value="express">快递</option>
-        </select>
+        </select><select id="sortDirection" aria-label="排序方向" onchange="renderCurrent()"><option value="asc">升序</option><option value="desc">降序</option></select>
       </div>
       <button class="gray" type="button" style="width:100%;margin-top:7px" onclick="clearBatchFiltersV79()">清除筛选</button>
     </div>
@@ -91,37 +92,7 @@ async function sha256Text(text){
  const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(String(text||"")));
  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
 }
-async function loadData(){
- const url="./query-data.json?v="+Date.now()+"-"+Math.random().toString(36).slice(2);
-
- const r=await fetch(url,{
-   method:"GET",
-   cache:"no-store",
-   headers:{
-     "Accept":"application/json",
-     "Cache-Control":"no-cache",
-     "Pragma":"no-cache"
-   }
- });
-
- if(!r.ok){
-   throw new Error("最新查询数据读取失败："+r.status);
- }
-
- const text=await r.text();
- payload=JSON.parse(text);
-
- const meta=document.getElementById("meta");
- if(meta){
-   const version=payload.updatedAt
-     ? String(payload.updatedAt).replace(/[^0-9]/g,"").slice(0,14)
-     : "Unknown";
-   meta.textContent=
-     "Data updated: "+(payload.updatedAt?new Date(payload.updatedAt).toLocaleString():"Unknown")+
-     " | In stock: "+((payload.items||[]).length)+
-     " | Data version: "+version;
- }
-}
+async function loadData(){return window.WarehouseQuery.loadData();}
 let refreshBusyV75=false;
 let lastRefreshV75=0;
 
@@ -157,50 +128,14 @@ function refreshWhenActiveV75(){
  }
 }
 
-async function login(){
- try{
-   if(!payload)await loadData();
-   const hash=await sha256Text(document.getElementById("pwd").value);
-   if(hash!==String(payload.passwordHash||"")){
-     document.getElementById("loginMsg").textContent="密码错误";
-     return;
-   }
-   sessionStorage.setItem("queryLoginDay",todayKey());
-   document.getElementById("loginBox").style.display="none";
-   document.getElementById("app").style.display="block";
-   buildFilters();
- }catch(e){
-   document.getElementById("loginMsg").textContent=e.message||"登录失败";
- }
-}
-function requireDailyLogin(){
- const sameDay=sessionStorage.getItem("queryLoginDay")===todayKey();
-
- if(sameDay){
-   refreshLatestDataV75(false).then(function(ok){
-     if(ok){
-       document.getElementById("loginBox").style.display="none";
-       document.getElementById("app").style.display="block";
-     }else{
-       document.getElementById("loginBox").style.display="block";
-       document.getElementById("app").style.display="none";
-       document.getElementById("loginMsg").textContent="最新数据读取失败，请稍后重试";
-     }
-     document.documentElement.classList.remove("v76AuthPending");
-   });
- }else{
-   document.getElementById("loginBox").style.display="block";
-   document.getElementById("app").style.display="none";
-   document.documentElement.classList.remove("v76AuthPending");
- }
-}
+async function login(){return window.WarehouseQuery.login();}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function applyQueryFeaturesV77(){
  const batchCard=document.getElementById("batchQueryCardV77");
  const filterSortCard=document.getElementById("batchFilterSortCardV78");
  const enabled=!!(payload&&payload.features&&payload.features.batchQuery);
  if(batchCard)batchCard.style.display=enabled?"block":"none";
- if(filterSortCard)filterSortCard.style.display=enabled?"block":"none";
+ if(filterSortCard)filterSortCard.style.display=currentMode!=="none"?"block":"none";
  if(!enabled && currentMode==="batch"){
    currentMode="none";
    currentBatch=[];
@@ -246,7 +181,7 @@ function buildFilters(){
 
  const baseItems=(currentMode==="batch")
    ? getCurrentBatchMatchedItemsV79()
-   : [];
+   : currentItems;
 
  const selected=currentBatchFilterValuesV81();
 
@@ -303,6 +238,7 @@ function clearBatchFiltersV79(){
    const el=document.getElementById(id);
    if(el)el.value="";
  });
+ document.getElementById("sortDirection").value="asc";
  buildFilters();
  renderCurrent();
 }
@@ -315,7 +251,7 @@ function passFilters(x){
 }
 function sortItems(arr){
  const f=document.getElementById("sortField").value;
- return f?arr.slice().sort((a,b)=>String(a[f]||"").localeCompare(String(b[f]||""),"zh-CN",{numeric:true})):arr;
+ return f?arr.slice().sort((a,b)=>String(a[f]||"").localeCompare(String(b[f]||""),"zh-CN",{numeric:true})*(document.getElementById("sortDirection").value==="desc"?-1:1)):arr;
 }
 function card(x){
  return '<div class="result"><b>快递：</b>'+esc(x.express||"-")+
@@ -332,6 +268,7 @@ async function quickSearch(){
    const e=String(x.express||""),l=String(x.last4||e.slice(-4));
    return e.includes(q)||l===q||String(x.customer||"").includes(q)||String(x.pallet||"").includes(q);
  });
+ buildFilters();
  renderCurrent();
 }
 async function batchSearch(){
@@ -355,7 +292,7 @@ function renderCurrent(){
  const box=document.getElementById("results");
 
  if(currentMode==="quick"){
-   const arr=currentItems;
+   const arr=sortItems(currentItems.filter(passFilters));
    box.innerHTML=arr.length?arr.map(card).join(""):'<div class="result missing">未找到</div>';
    return;
  }
@@ -411,7 +348,7 @@ function renderCurrent(){
      const av=String(a.item[sortField]||"");
      const bv=String(b.item[sortField]||"");
      const cmp=av.localeCompare(bv,"zh-CN",{numeric:true});
-     if(cmp!==0)return cmp;
+     if(cmp!==0)return document.getElementById("sortDirection").value==="desc"?-cmp:cmp;
 
      // 同值时保持原批量输入顺序，结果更稳定。
      if(a.inputIndex!==b.inputIndex)return a.inputIndex-b.inputIndex;
@@ -441,7 +378,6 @@ function renderCurrent(){
      : '<div class="muted">当前筛选条件下没有结果</div>';
  }
 }
-requireDailyLogin();
 
 window.addEventListener("pageshow",function(){
  refreshWhenActiveV75();
@@ -455,13 +391,12 @@ window.addEventListener("focus",function(){
 
 setInterval(function(){
  if(sessionStorage.getItem("queryLoginDay") && sessionStorage.getItem("queryLoginDay")!==todayKey()){
-   sessionStorage.removeItem("queryLoginDay");
-   document.getElementById("app").style.display="none";
-   document.getElementById("loginBox").style.display="block";
-   document.getElementById("pwd").value="";
-   document.getElementById("loginMsg").textContent="日期已变化，请重新登录";
+   window.WarehouseQuery.lock("日期已变化，请重新登录");
  }
 },60000);
 </script>
+<script src="assets/config.js"></script>
+<script src="assets/query-results.js?v=20261115"></script>
+<script src="assets/secure-client.js?v=20261115"></script>
 </body>
 </html>

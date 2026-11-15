@@ -1,0 +1,127 @@
+(function(root){
+ 'use strict';
+ const config=root.WarehouseQueryConfig||{},$=id=>document.getElementById(id);
+ const deviceKey='warehouseQueryDeviceV1',sessionKey='warehouseQuerySessionV1';
+ let identity,session=null,pollTimer,checkTimer,expiryTimer,waitingPassword='',loginBusy=false,epoch=0;
+ const imageURLs=new Map(),imageLoads=new Map();
+ try{identity=JSON.parse(localStorage.getItem(deviceKey)||'null');}catch{}
+ if(!identity?.id||!identity?.secret){identity={id:crypto.randomUUID(),secret:Array.from(crypto.getRandomValues(new Uint8Array(32)),x=>x.toString(16).padStart(2,'0')).join(''),name:''};localStorage.setItem(deviceKey,JSON.stringify(identity));}
+ $('personName').value=identity.name||'';
+ function endpoint(){const url=new URL(config.endpoint);if(url.protocol!=='https:'&&!(config.test&&url.hostname==='127.0.0.1'))throw Error('查询接口必须使用HTTPS');return url.href;}
+ function credentials(){return {deviceId:identity.id,deviceSecret:identity.secret};}
+ function clearImages(){for(const url of imageURLs.values())URL.revokeObjectURL(url);imageURLs.clear();imageLoads.clear();document.querySelector('.query-photo-viewer')?.remove();document.body.style.overflow='';}
+ function lock(message){
+  epoch++;session=null;waitingPassword='';sessionStorage.removeItem(sessionKey);sessionStorage.removeItem('queryLoginDay');
+  clearTimeout(pollTimer);clearTimeout(expiryTimer);clearInterval(checkTimer);clearImages();payload=null;currentItems=[];currentBatch=[];currentMode='none';
+  $('results').innerHTML='<div class="muted">请输入单号查询</div>';$('app').style.display='none';$('loginBox').style.display='block';$('pwd').value='';$('loginMsg').textContent=message||'';
+ }
+ async function call(action,args={}){
+  const own=epoch,controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
+  try{
+   const response=await fetch(endpoint(),{method:'POST',headers:{'Content-Type':'application/json',...(session?{Authorization:'Bearer '+session.token}:{})},body:JSON.stringify({action,args}),signal:controller.signal,cache:'no-store'});
+   const result=await response.json();
+   if(own!==epoch)throw Error('页面登录状态已改变');
+   if(!response.ok||!result.ok){const error=Object.assign(Error(result.message||'查询请求失败'),{code:result.code});if(error.code==='ACCESS_DENIED'&&session)lock(error.message);throw error;}
+   return result.data;
+  }catch(error){
+   if(own===epoch&&session&&(!error.code||error.code==='ORIGIN_DENIED'))lock('暂时无法验证登录权限，请恢复连接后重新登录');
+   if(error.name==='AbortError')throw Error('网络连接超时，请重试');throw error;
+  }finally{clearTimeout(timer);}
+ }
+ function rebuildMatches(){
+  if(currentMode==='quick'){
+   const q=String($('quick').value||'').trim();
+   currentItems=payload.items.filter(x=>String(x.express||'').includes(q)||String(x.last4||'')===q||String(x.customer||'').includes(q)||String(x.pallet||'').includes(q));
+  }else if(currentMode==='batch'){
+   currentBatch=currentBatch.map(e=>({...e,matches:payload.items.filter(x=>String(x.last4||String(x.express||'').slice(-4))===e.key)}));
+  }
+ }
+ async function loadData(){
+  if(!session)throw Error('请先登录并等待审核');
+  for(let attempt=0;attempt<2;attempt++){
+   const own=epoch;let offset=0,revision='',items=[],first;
+   try{
+    do{
+     const page=await call('data',{offset,revision});if(own!==epoch)throw Error('登录已改变');
+     if(!first)first=page;
+     if(revision&&revision!==page.revision)throw Object.assign(Error('查询版本已改变'),{code:'REVISION_CHANGED'});
+     revision=page.revision;items.push(...page.items);const next=page.nextOffset;
+     if(next!==null&&(!Number.isSafeInteger(next)||next<=offset))throw Error('查询分页异常');offset=next;
+    }while(offset!==null);
+    payload={items,updatedAt:first.updatedAt,features:first.features,revision};rebuildMatches();
+    $('meta').textContent='人员：'+session.name+' · 数据更新：'+(payload.updatedAt?new Date(payload.updatedAt).toLocaleString():'未记录')+' · 在库 '+items.length+' 件';return;
+   }catch(error){if(error.code!=='REVISION_CHANGED'||attempt===1)throw error;}
+  }
+ }
+ async function openApp(result){
+  session={token:result.token,name:result.name,expiresAt:result.expiresAt};sessionStorage.setItem(sessionKey,JSON.stringify(session));
+  await loadData();waitingPassword='';$('pwd').value='';sessionStorage.setItem('queryLoginDay',todayKey());
+  $('loginBox').style.display='none';$('app').style.display='block';buildFilters();
+  clearTimeout(expiryTimer);expiryTimer=setTimeout(()=>lock('登录已过期，请重新输入密码'),Math.max(0,session.expiresAt-Date.now()));
+  clearInterval(checkTimer);checkTimer=setInterval(checkAuthorization,60000);
+ }
+ async function checkAuthorization(){
+  if(document.hidden||!session)return;
+  const own=epoch;
+  try{const state=await call('status',credentials());if(own===epoch&&state.status!=='approved')lock('人员授权已撤销或尚未审核');}catch(error){if(own===epoch)lock(error.code==='ACCESS_DENIED'?error.message:'暂时无法验证登录权限，请恢复连接后重新登录');}
+ }
+ async function poll(){
+  try{
+   const result=await call('status',credentials());
+   if(result.status==='approved'){
+    if(waitingPassword){const result=await call('login',{...credentials(),name:identity.name,password:waitingPassword});if(result.status==='approved'){await openApp(result);$('loginMsg').textContent='';return;}}
+    $('loginMsg').textContent='审核已通过，请输入密码登录';return;
+   }
+   if(result.status==='rejected'||result.status==='revoked'){waitingPassword='';$('pwd').value='';$('loginMsg').textContent=result.status==='rejected'?'申请未通过，请联系管理员':'设备授权已撤销，请联系管理员';return;}
+   $('loginMsg').textContent='申请已提交，等待管理员审核。';
+  }catch(error){$('loginMsg').textContent=error.message+'；正在等待连接恢复';}
+  pollTimer=setTimeout(poll,5000);
+ }
+ async function login(){
+  if(loginBusy)return;loginBusy=true;clearTimeout(pollTimer);
+  const button=$('loginButton');button.disabled=true;
+  try{
+   const name=$('personName').value.trim(),password=$('pwd').value;
+   const result=await call('login',{...credentials(),name,password,label:navigator.platform+' / '+navigator.userAgent.slice(0,65)});
+   identity.name=name;localStorage.setItem(deviceKey,JSON.stringify(identity));
+   if(result.status==='approved'){await openApp(result);return;}
+   if(result.status!=='pending'){waitingPassword='';$('pwd').value='';$('loginMsg').textContent=result.status==='revoked'?'授权已撤销，请联系管理员':'申请未通过，请联系管理员';return;}
+   waitingPassword=password;$('pwd').value='';$('loginMsg').textContent='申请已提交，等待管理员审核。';pollTimer=setTimeout(poll,5000);
+  }catch(error){$('loginMsg').textContent=error.message||'登录失败';}
+  finally{loginBusy=false;button.disabled=false;}
+ }
+ async function imageURL(id,variant){
+  const own=epoch,key=id+':'+variant;
+  if(imageURLs.has(key))return imageURLs.get(key);if(imageLoads.has(key))return imageLoads.get(key);
+  const promise=(async()=>{
+   const result=await call('photo',{id,variant});if(own!==epoch||!session)throw Error('登录已失效');
+   const bytes=Uint8Array.from(atob(result.content),x=>x.charCodeAt(0)),url=URL.createObjectURL(new Blob([bytes],{type:'image/jpeg'}));imageURLs.set(key,url);
+   if(imageURLs.size>80){const first=imageURLs.keys().next().value;URL.revokeObjectURL(imageURLs.get(first));imageURLs.delete(first);}return url;
+  })();imageLoads.set(key,promise);try{return await promise;}finally{imageLoads.delete(key);}
+ }
+ const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){observer.unobserve(entry.target);const image=entry.target;imageURL(image.dataset.queryPhoto,'thumbnail').then(url=>{if(image.isConnected)image.src=url;}).catch(error=>{image.alt='图片暂不可用';image.title=error.message;});}});
+ function observePhotos(){document.querySelectorAll('img[data-query-photo]:not([data-observed])').forEach(image=>{image.dataset.observed='';observer.observe(image);});}
+ document.addEventListener('click',async event=>{
+  const button=event.target.closest('[data-query-view]');if(!button)return;
+  const id=button.dataset.queryView,photo=payload?.items.flatMap(x=>x.photos||[]).find(p=>p.id===id);if(!photo||!session)return;
+  const layer=document.createElement('div');layer.className='query-photo-viewer';layer.innerHTML='<button type="button">关闭</button><img alt="照片大图"><p></p>';document.body.append(layer);document.body.style.overflow='hidden';
+  const status=layer.querySelector('p');status.textContent='正在加载…';layer.querySelector('button').onclick=()=>{layer.remove();document.body.style.overflow='';};
+  try{const url=await imageURL(id,'full');if(layer.isConnected){layer.querySelector('img').src=url;status.textContent=photo.note||'双指缩放查看细节';}}catch(error){status.textContent=error.message;}
+ });
+ root.WarehouseQuery={loadData,login,observePhotos,call,lock};
+ root.loadData=loadData;root.login=login;
+ root.requireDailyLogin=async()=>{
+  try{
+   if(!config.endpoint){lock('查询服务尚未配置，请联系管理员');return;}
+   endpoint();const saved=JSON.parse(sessionStorage.getItem(sessionKey)||'null');
+   if(saved?.token&&saved.expiresAt>Date.now()&&sessionStorage.getItem('queryLoginDay')===todayKey())await openApp(saved);
+   else lock('首次使用此设备需提交审核；已通过的人员输入密码即可登录。');
+  }catch(error){lock(error.message);}finally{document.documentElement.classList.remove('v76AuthPending');}
+ };
+ $('logoutButton').onclick=()=>lock('已退出登录');
+ $('pwd').addEventListener('keydown',event=>{if(event.key==='Enter')login();});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkAuthorization();});
+ root.WarehouseQuery.checkAuthorization=checkAuthorization;
+ window.addEventListener('pagehide',clearImages);
+ root.requireDailyLogin();
+})(window);
