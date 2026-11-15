@@ -3,6 +3,7 @@
  const config=root.WarehouseQueryConfig||{},$=id=>document.getElementById(id);
  const deviceKey='warehouseQueryDeviceV1',sessionKey='warehouseQuerySessionV1';
  let identity,session=null,pollTimer,checkTimer,expiryTimer,waitingPassword='',loginBusy=false,epoch=0;
+ let dataLoading=null,lastCheckedAt=0,searchedQuickQuery='';
  const imageURLs=new Map(),imageLoads=new Map();
  try{identity=JSON.parse(localStorage.getItem(deviceKey)||'null');}catch{}
  if(!identity?.id||!identity?.secret){identity={id:crypto.randomUUID(),secret:Array.from(crypto.getRandomValues(new Uint8Array(32)),x=>x.toString(16).padStart(2,'0')).join(''),name:''};localStorage.setItem(deviceKey,JSON.stringify(identity));}
@@ -11,7 +12,7 @@
  function credentials(){return {deviceId:identity.id,deviceSecret:identity.secret};}
  function clearImages(){for(const url of imageURLs.values())URL.revokeObjectURL(url);imageURLs.clear();imageLoads.clear();document.querySelector('.query-photo-viewer')?.remove();document.body.style.overflow='';}
  function lock(message){
-  epoch++;session=null;waitingPassword='';sessionStorage.removeItem(sessionKey);sessionStorage.removeItem('queryLoginDay');
+  epoch++;session=null;waitingPassword='';dataLoading=null;lastCheckedAt=0;searchedQuickQuery='';sessionStorage.removeItem(sessionKey);sessionStorage.removeItem('queryLoginDay');
   clearTimeout(pollTimer);clearTimeout(expiryTimer);clearInterval(checkTimer);clearImages();payload=null;currentItems=[];currentBatch=[];currentMode='none';
   $('results').innerHTML='<div class="muted">请输入单号查询</div>';$('app').style.display='none';$('loginBox').style.display='block';$('pwd').value='';$('loginMsg').textContent=message||'';
  }
@@ -30,13 +31,15 @@
  }
  function rebuildMatches(){
   if(currentMode==='quick'){
-   const q=String($('quick').value||'').trim();
+   const q=searchedQuickQuery;
    currentItems=payload.items.filter(x=>String(x.express||'').includes(q)||String(x.last4||'')===q||String(x.customer||'').includes(q)||String(x.pallet||'').includes(q));
   }else if(currentMode==='batch'){
    currentBatch=currentBatch.map(e=>({...e,matches:payload.items.filter(x=>String(x.last4||String(x.express||'').slice(-4))===e.key)}));
   }
  }
- async function loadData(){
+ function paintMeta(){if(session&&payload)$('meta').textContent='人员：'+session.name+' · 数据更新：'+(payload.updatedAt?new Date(payload.updatedAt).toLocaleString():'未记录')+' · 在库 '+payload.items.length+' 件';}
+ function applySnapshot(packed){payload=root.WarehouseQuerySnapshot.decode(packed);rebuildMatches();paintMeta();}
+ async function loadPaged(){
   if(!session)throw Error('请先登录并等待审核');
   for(let attempt=0;attempt<2;attempt++){
    const own=epoch;let offset=0,revision='',items=[],first;
@@ -49,13 +52,37 @@
      if(next!==null&&(!Number.isSafeInteger(next)||next<=offset))throw Error('查询分页异常');offset=next;
     }while(offset!==null);
     payload={items,updatedAt:first.updatedAt,features:first.features,revision};rebuildMatches();
-    $('meta').textContent='人员：'+session.name+' · 数据更新：'+(payload.updatedAt?new Date(payload.updatedAt).toLocaleString():'未记录')+' · 在库 '+items.length+' 件';return;
+    paintMeta();return;
    }catch(error){if(error.code!=='REVISION_CHANGED'||attempt===1)throw error;}
   }
  }
+ function loadData(){
+  if(!session)return Promise.reject(Error('请先登录并等待审核'));
+  if(dataLoading)return dataLoading;
+  const own=epoch;
+  const pending=(async()=>{
+   const result=await call('compactData',{revision:payload?.revision||''});if(own!==epoch||!session)throw Error('登录已改变');
+   if(result.unchanged){if(!payload||result.revision!==payload.revision)throw Error('查询版本不一致，请重新登录');}
+   else if(result.paged)await loadPaged();else applySnapshot(result);
+   if(own===epoch)lastCheckedAt=Date.now();
+  })().catch(error=>{if(own===epoch&&session&&!error.code)lock(error.message);throw error;});
+  dataLoading=pending;
+  return pending.finally(()=>{if(dataLoading===pending)dataLoading=null;});
+ }
+ function backgroundRefresh(){
+  if(document.hidden||!session||!payload||dataLoading||Date.now()-lastCheckedAt<5000)return;
+  const own=epoch;
+  paintMeta();$('meta').textContent+=' · 正在核对更新';
+  loadData().then(()=>{if(own!==epoch||!payload)return;buildFilters();if(currentMode!=='none')renderCurrent();}).catch(error=>{
+   if(own!==epoch||!session)return;
+   if(!['SOURCE_TIMEOUT','SOURCE_UNAVAILABLE'].includes(error.code)){lock('暂时无法验证登录权限，请恢复连接后重新登录');return;}
+   lastCheckedAt=Date.now();paintMeta();$('meta').textContent+=' · 后台刷新暂未完成';
+  });
+ }
  async function openApp(result){
   session={token:result.token,name:result.name,expiresAt:result.expiresAt};sessionStorage.setItem(sessionKey,JSON.stringify(session));
-  await loadData();waitingPassword='';$('pwd').value='';sessionStorage.setItem('queryLoginDay',todayKey());
+  if(result.snapshot&&!result.snapshot.paged){try{applySnapshot(result.snapshot);lastCheckedAt=Date.now();}catch(error){lock(error.message);throw error;}}else await loadData();
+  waitingPassword='';$('pwd').value='';sessionStorage.setItem('queryLoginDay',todayKey());
   $('loginBox').style.display='none';$('app').style.display='block';buildFilters();
   clearTimeout(expiryTimer);expiryTimer=setTimeout(()=>lock('登录已过期，请重新输入密码'),Math.max(0,session.expiresAt-Date.now()));
   clearInterval(checkTimer);checkTimer=setInterval(checkAuthorization,60000);
@@ -109,8 +136,12 @@
   const status=layer.querySelector('p');status.textContent='正在加载…';layer.querySelector('button').onclick=()=>{layer.remove();document.body.style.overflow='';};
   try{const url=await imageURL(id,'full');if(layer.isConnected){layer.querySelector('img').src=url;status.textContent=photo.note||'双指缩放查看细节';}}catch(error){status.textContent=error.message;}
  });
- root.WarehouseQuery={loadData,login,observePhotos,call,lock};
+ root.WarehouseQuery={loadData,login,observePhotos,call,lock,rememberQuickQuery:query=>{searchedQuickQuery=query;}};
  root.loadData=loadData;root.login=login;
+ root.refreshLatestDataV75=async function(showMessage){
+  if(payload&&session){backgroundRefresh();return true;}
+  try{await loadData();buildFilters();return true;}catch(error){if(showMessage)$('loginMsg').textContent=error.message;return false;}
+ };
  root.requireDailyLogin=async()=>{
   try{
    if(!config.endpoint){lock('查询服务尚未配置，请联系管理员');return;}

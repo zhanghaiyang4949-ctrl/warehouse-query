@@ -3,7 +3,7 @@ const html=fs.readFileSync('index.html','utf8'),baseline=cp.execFileSync('git',[
 function setup(){
  const elements=new Map();function el(id){if(!elements.has(id))elements.set(id,{value:'',style:{},innerHTML:'',textContent:''});return elements.get(id);}
  el('sortDirection').value='asc';
- const context=vm.createContext({document:{getElementById:el,documentElement:{classList:{add(){}}},addEventListener(){}},window:{addEventListener(){}},sessionStorage:{getItem:()=>''},setInterval(){},console,TextEncoder,crypto:require('node:crypto').webcrypto});
+ const context=vm.createContext({WarehouseTrackingDisplay:require('../assets/tracking-display'),document:{getElementById:el,documentElement:{classList:{add(){}}},addEventListener(){}},window:{addEventListener(){}},sessionStorage:{getItem:()=>''},setInterval(){},console,TextEncoder,crypto:require('node:crypto').webcrypto});
  for(const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))if(match[1].trim())vm.runInContext(match[1],context);
  vm.runInContext('loadData=async()=>{};payload={items:[{id:1,express:"11110001",last4:"0001",customer:"QA",date:"2026-11-10",pallet:"A-2"},{id:2,express:"22220002",last4:"0002",customer:"QA",date:"2026-11-11",pallet:"A-10"},{id:3,express:"33330003",last4:"0003",customer:"QB",date:"2026-11-12",pallet:"B-1"}],features:{batchQuery:true}};',context);
  return {el,run:script=>vm.runInContext(script,context)};

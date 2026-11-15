@@ -263,6 +263,7 @@ async function quickSearch(){
  if(!(await refreshLatestDataV75(false))){document.getElementById("results").innerHTML='<div class="result missing">最新数据读取失败，请稍后重试</div>';return;}
  const q=String(document.getElementById("quick").value||"").trim();
  if(!q)return;
+ window.WarehouseQuery?.rememberQuickQuery(q);
  currentMode="quick";
  currentItems=(payload.items||[]).filter(x=>{
    const e=String(x.express||""),l=String(x.last4||e.slice(-4));
@@ -310,13 +311,13 @@ function renderCurrent(){
        if(!e.matches.length){
          blocks.push(
            '<div class="result missing"><b>'+
-           (e.index+1)+'. '+esc(e.line)+
+           (e.index+1)+'. '+esc(WarehouseTrackingDisplay.format(e.line))+
            '</b> → 未找到</div>'
          );
        }else if(arr.length){
          blocks.push(
            '<div class="result"><b>'+
-           (e.index+1)+'. '+esc(e.line)+
+           (e.index+1)+'. '+esc(WarehouseTrackingDisplay.format(e.line))+
            '</b>'+arr.map(card).join("")+'</div>'
          );
        }
@@ -357,7 +358,7 @@ function renderCurrent(){
 
    const foundHtml=rows.map(function(r){
      return '<div class="result">'+
-       '<div class="muted">原输入 '+(r.inputIndex+1)+'. '+esc(r.inputLine)+'</div>'+
+       '<div class="muted">原输入 '+(r.inputIndex+1)+'. '+esc(WarehouseTrackingDisplay.format(r.inputLine))+'</div>'+
        card(r.item)+
        '</div>';
    });
@@ -368,7 +369,7 @@ function renderCurrent(){
      .filter(function(e){return !e.matches.length;})
      .map(function(e){
        return '<div class="result missing"><b>'+
-         (e.index+1)+'. '+esc(e.line)+
+         (e.index+1)+'. '+esc(WarehouseTrackingDisplay.format(e.line))+
          '</b> → 未找到</div>';
      });
 
@@ -396,7 +397,10 @@ setInterval(function(){
 },60000);
 </script>
 <script src="assets/config.js"></script>
-<script src="assets/query-results.js?v=20261115"></script>
-<script src="assets/secure-client.js?v=20261116-retry"></script>
+<script src="assets/tracking-display.js?v=20261116"></script>
+<script src="assets/query-results.js?v=20261116-format"></script>
+<script src="assets/vendor/pako_inflate-2.1.0.min.js"></script>
+<script src="assets/query-snapshot.js?v=20261116"></script>
+<script src="assets/secure-client.js?v=20261116-local"></script>
 </body>
 </html>
