@@ -10,7 +10,9 @@
 .result.query-result{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
 .query-result-info{min-width:0;overflow-wrap:anywhere;font-size:14px;line-height:1.6}
 .query-result-pallet{max-width:110px;text-align:right;color:#245fc7;font-size:20px;font-weight:700;overflow-wrap:anywhere}
-.query-result-photos{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.query-result-photos{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;max-width:100%;margin-top:6px;padding-bottom:4px}
+.query-result-photos>button{flex:0 0 auto}
+.query-photo-count{display:block;margin-top:3px;color:#64778b;font-size:11px}
 .query-result-photos button{padding:2px;border:1px solid #d8e2ef;background:#f5f8fc;border-radius:6px}
 .query-result-photos img{display:block;width:54px;height:44px;object-fit:cover;font-size:10px}
 .query-photo-viewer{position:fixed;inset:0;z-index:100;background:#0b1724f5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px;color:white;overflow:auto;touch-action:pan-x pan-y pinch-zoom}

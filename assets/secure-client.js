@@ -10,7 +10,7 @@
  $('personName').value=identity.name||'';
  function endpoint(){const url=new URL(config.endpoint);if(url.protocol!=='https:'&&!(config.test&&url.hostname==='127.0.0.1'))throw Error('查询接口必须使用HTTPS');return url.href;}
  function credentials(){return {deviceId:identity.id,deviceSecret:identity.secret};}
- function clearImages(){for(const url of imageURLs.values())URL.revokeObjectURL(url);imageURLs.clear();imageLoads.clear();document.querySelector('.query-photo-viewer')?.remove();document.body.style.overflow='';}
+ function clearImages(){root.WarehousePhotoGallery?.close();for(const url of imageURLs.values())URL.revokeObjectURL(url);imageURLs.clear();imageLoads.clear();}
  function lock(message){
   epoch++;session=null;waitingPassword='';dataLoading=null;lastCheckedAt=0;searchedQuickQuery='';sessionStorage.removeItem(sessionKey);sessionStorage.removeItem('queryLoginDay');
   clearTimeout(pollTimer);clearTimeout(expiryTimer);clearInterval(checkTimer);clearImages();payload=null;currentItems=[];currentBatch=[];currentMode='none';
@@ -32,9 +32,9 @@
  function rebuildMatches(){
   if(currentMode==='quick'){
    const q=searchedQuickQuery;
-   currentItems=payload.items.filter(x=>String(x.express||'').includes(q)||String(x.last4||'')===q||String(x.customer||'').includes(q)||String(x.pallet||'').includes(q));
+   currentItems=payload.items.filter(x=>root.WarehouseQueryTail.matches(x,q));
   }else if(currentMode==='batch'){
-   currentBatch=currentBatch.map(e=>({...e,matches:payload.items.filter(x=>String(x.last4||String(x.express||'').slice(-4))===e.key)}));
+   currentBatch=currentBatch.map(e=>({...e,key:root.WarehouseQueryTail.key(e.line),matches:payload.items.filter(x=>root.WarehouseQueryTail.matches(x,e.line))}));
   }
  }
  function paintMeta(){if(session&&payload)$('meta').textContent='人员：'+session.name+' · 数据更新：'+(payload.updatedAt?new Date(payload.updatedAt).toLocaleString():'未记录')+' · 在库 '+payload.items.length+' 件';}
@@ -125,16 +125,16 @@
    const result=await call('photo',{id,variant});if(own!==epoch||!session)throw Error('登录已失效');
    const bytes=Uint8Array.from(atob(result.content),x=>x.charCodeAt(0)),url=URL.createObjectURL(new Blob([bytes],{type:'image/jpeg'}));imageURLs.set(key,url);
    if(imageURLs.size>80){const first=imageURLs.keys().next().value;URL.revokeObjectURL(imageURLs.get(first));imageURLs.delete(first);}return url;
-  })();imageLoads.set(key,promise);try{return await promise;}finally{imageLoads.delete(key);}
+  })();imageLoads.set(key,promise);try{return await promise;}finally{if(imageLoads.get(key)===promise)imageLoads.delete(key);}
  }
- const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){observer.unobserve(entry.target);const image=entry.target;imageURL(image.dataset.queryPhoto,'thumbnail').then(url=>{if(image.isConnected)image.src=url;}).catch(error=>{image.alt='图片暂不可用';image.title=error.message;});}});
+ const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){observer.unobserve(entry.target);const image=entry.target,own=epoch;imageURL(image.dataset.queryPhoto,'thumbnail').then(url=>{if(own===epoch&&session&&image.isConnected)image.src=url;}).catch(error=>{if(own===epoch&&session&&image.isConnected){image.alt='图片暂不可用';image.title=error.message;}});}});
  function observePhotos(){document.querySelectorAll('img[data-query-photo]:not([data-observed])').forEach(image=>{image.dataset.observed='';observer.observe(image);});}
  document.addEventListener('click',async event=>{
   const button=event.target.closest('[data-query-view]');if(!button)return;
-  const id=button.dataset.queryView,photo=payload?.items.flatMap(x=>x.photos||[]).find(p=>p.id===id);if(!photo||!session)return;
-  const layer=document.createElement('div');layer.className='query-photo-viewer';layer.innerHTML='<button type="button">关闭</button><img alt="照片大图"><p></p>';document.body.append(layer);document.body.style.overflow='hidden';
-  const status=layer.querySelector('p');status.textContent='正在加载…';layer.querySelector('button').onclick=()=>{layer.remove();document.body.style.overflow='';};
-  try{const url=await imageURL(id,'full');if(layer.isConnected){layer.querySelector('img').src=url;status.textContent=photo.note||'双指缩放查看细节';}}catch(error){status.textContent=error.message;}
+  const id=button.dataset.queryView,group=button.closest('.query-result-photos');if(!group||!session)return;
+  const available=new Map((payload?.items||[]).flatMap(x=>x.photos||[]).map(photo=>[photo.id,photo]));
+  const photos=Array.from(group.querySelectorAll('[data-query-view]'),entry=>available.get(entry.dataset.queryView)).filter(Boolean),index=photos.findIndex(photo=>photo.id===id);if(index<0)return;
+  root.WarehousePhotoGallery.open({records:photos,index,extraClass:'query-photo-viewer',loadImage:photo=>imageURL(photo.id,'full')});
  });
  root.WarehouseQuery={loadData,login,observePhotos,call,lock,rememberQuickQuery:query=>{searchedQuickQuery=query;}};
  root.loadData=loadData;root.login=login;

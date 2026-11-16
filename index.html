@@ -27,7 +27,9 @@ html.v76AuthPending body{visibility:hidden}
 <script>
 document.documentElement.classList.add("v76AuthPending");
 </script>
-<link rel="stylesheet" href="assets/query.css?v=20261115">
+<link rel="stylesheet" href="assets/query.css?v=20261117">
+<link rel="stylesheet" href="assets/tail-collisions.css?v=20261117">
+<link rel="stylesheet" href="assets/photo-gallery.css?v=20261117">
 </head>
 <body>
 <div class="wrap">
@@ -46,6 +48,12 @@ document.documentElement.classList.add("v76AuthPending");
       <div class="row">
         <input id="quick" inputmode="numeric" placeholder="输入单号/后4位">
         <button class="primary" onclick="quickSearch()">搜索</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <label style="display:flex;align-items:center;gap:6px"><input id="queryTailEnabled" type="checkbox" checked style="width:20px;height:20px">仅查快递尾号</label>
+        <label for="queryTailLength">后几位</label>
+        <select id="queryTailLength" aria-label="快递尾号位数" style="width:82px"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select>
+        <span class="muted">关闭后可查单号、客户或托盘</span>
       </div>
       <div id="meta" class="muted" style="margin-top:8px"></div>
       
@@ -83,6 +91,13 @@ document.documentElement.classList.add("v76AuthPending");
 
 <script>
 let payload=null,currentMode="none",currentItems=[],currentBatch=[];
+let currentQuickQueryTail="";
+document.addEventListener('warehouse-query-tail-change',function(){
+ if(!payload)return;
+ if(currentMode==="quick")currentItems=(payload.items||[]).filter(x=>window.WarehouseQueryTail.matches(x,currentQuickQueryTail));
+ else if(currentMode==="batch")currentBatch=currentBatch.map(entry=>({...entry,key:window.WarehouseQueryTail.key(entry.line),matches:(payload.items||[]).filter(x=>window.WarehouseQueryTail.matches(x,entry.line))}));
+ buildFilters();applyQueryFeaturesV77();renderCurrent();
+});
 
 function todayKey(){
  const d=new Date();
@@ -265,10 +280,8 @@ async function quickSearch(){
  if(!q)return;
  window.WarehouseQuery?.rememberQuickQuery(q);
  currentMode="quick";
- currentItems=(payload.items||[]).filter(x=>{
-   const e=String(x.express||""),l=String(x.last4||e.slice(-4));
-   return e.includes(q)||l===q||String(x.customer||"").includes(q)||String(x.pallet||"").includes(q);
- });
+ currentQuickQueryTail=q;
+ currentItems=(payload.items||[]).filter(x=>window.WarehouseQueryTail.matches(x,q));
  buildFilters();
  renderCurrent();
 }
@@ -281,9 +294,8 @@ async function batchSearch(){
  const lines=String(document.getElementById("batch").value||"").split(/\r?\n/).map(v=>v.trim()).filter(Boolean);
  currentMode="batch";
  currentBatch=lines.map((line,index)=>{
-   const digits=line.replace(/\D/g,"");
-   const key=digits.length>=4?digits.slice(-4):line.slice(-4);
-   const matches=(payload.items||[]).filter(x=>String(x.last4||String(x.express||"").slice(-4))===key);
+   const key=window.WarehouseQueryTail.key(line);
+   const matches=(payload.items||[]).filter(x=>window.WarehouseQueryTail.matches(x,line));
    return {index,line,key,matches};
  });
  buildFilters();
@@ -397,10 +409,13 @@ setInterval(function(){
 },60000);
 </script>
 <script src="assets/config.js"></script>
+<script src="assets/query-tail.js?v=20261117-tail"></script>
 <script src="assets/tracking-display.js?v=20261116"></script>
-<script src="assets/query-results.js?v=20261116-format"></script>
+<script src="assets/tail-collisions.js?v=20261117"></script>
+<script src="assets/photo-gallery.js?v=20261117"></script>
+<script src="assets/query-results.js?v=20261117"></script>
 <script src="assets/vendor/pako_inflate-2.1.0.min.js"></script>
 <script src="assets/query-snapshot.js?v=20261116"></script>
-<script src="assets/secure-client.js?v=20261116-local"></script>
+<script src="assets/secure-client.js?v=20261117"></script>
 </body>
 </html>
